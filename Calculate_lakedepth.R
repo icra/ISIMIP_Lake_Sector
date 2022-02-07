@@ -53,7 +53,8 @@ crs(wm_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0
 
 writeRaster(wm_raster,"/home/ry4902/Documents/ISIMIP/AnalysisDepthArea/test_weightedMean/test.tif", overwrite=T)
 
-#basura que puede ser util:
+#Borrar
+###basura que puede ser util:
 writeOGR(out, "./home/ry4902/Documents/ISIMIP/AnalysisDepthArea", "test", 
          driver = "ESRI Shapefile")
 
@@ -66,22 +67,6 @@ for (i in 1:61){
 
 write.csv(df1, file = "/home/ry4902/Documents/ISIMIP/AnalysisDepthArea/centroids_Big3080km2_inside.csv",
           row.names = F)
-
-#Calculate centroid inside polygon (other lakes Area < 3080km2)
-library(sf)
-x <- shapefile("/home/ry4902/Documents/ISIMIP/AnalysisDepthArea/HydrolakesShallow3080km2_polys.shp")
-y<- st_as_sf(x)
-out<-st_point_on_surface(y)
-
-writeOGR(out, "./home/ry4902/Documents/ISIMIP/AnalysisDepthArea", "test", 
-         driver = "ESRI Shapefile")
-
-t<-(data.frame(unlist(matrix(out$geometry))))
-df1 <- data.frame()
-for (i in 1:61){
-  print(unlist(t[i,]))
-  df1 <- rbind(df1, unlist(t[i,]))
-}
 
 length(HL_cent$geometry) #total number of lakes
 unlist(HL_cent$geometry[l]) #Longitude and latitude of l lake
