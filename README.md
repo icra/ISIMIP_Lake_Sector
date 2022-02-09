@@ -1,5 +1,7 @@
 # ISIMIP_Lake_Sector
 
-```install.packages("sf")```
-```install.packages("sf", configure.args='--with-udunits2-lib= /home/spack/opt/spack/linux-centos7-broadwell/gcc-4.9.4/udunits-2.2.28-plmakr2d7imimfl5t7rssu5fwartskr7')```
-```sudo yum install udunits2-devel```
+To make this code work you must download the only input needed is HydroLAKES v1.0 "Lake polygons" in shapefile, here you can find it: https://www.hydrosheds.org/page/hydrolakes)
+
+After changing the directory folder in the code, you should be able to run the entire code. Comments in the code can explain in detail what is doing in each step.
+
+
