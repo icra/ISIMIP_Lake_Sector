@@ -57,8 +57,15 @@ HL_cent <- st_point_on_surface(HL_sf)
 HL_df <- data.frame(st_drop_geometry(HL_cent), st_coordinates(HL_cent))
 
 ## filling new matrix for each longitude and latitude with the weighted median values
-wm_matrix <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix to save all weighted median map
-c_lon <- 0; c_print<-0
+wm_matrix <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix to save all weighted median map for depth
+
+#empty matrix to save all weighted median map for the rest of the data in HydroLAKES
+wm_list <- list();c<-0; var_vector <- c(1,6:19)
+for (v in 1:length(var_vector)){ #vector of data to be saved from HydroLAKES database (HL_df)
+  c <- c+1
+  wm_list[[c]] <- matrix(data = NA, nrow=360, ncol = 720)
+} 
+c_lon <- 0; 
 for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
   c_lon <- c_lon+1; c_lat <- 0
   for (lat in seq(90, -89.5, -0.5)){ #loop in latitude
@@ -69,18 +76,18 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
     if (length(pos_lakes)>0){
       max_val <- max(HL_df$Lake_area[pos_lakes])
       if(max_val>3080){
-        c_print <- c_print+1
-        #print(paste("lagos mayores de 1degree estaban en estas posiciones:", pos_lakes, "N", c_print))
         if (length(pos_lakes)>1){
           print("hay dos lagos grandes OJO")
           stop("hay dos lagos grandes OJO")
         }
         wm_matrix[c_lat,c_lon] <- HL_df$Depth_avg[pos_lakes]
+        for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes,var_vector[v]]}
       }else{
         #print(pos_lakes)
         if (length(pos_lakes)==1){
           wm_temp <- HL_df$Depth_avg[pos_lakes]
           wm_matrix[c_lat,c_lon] <- wm_temp
+          for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes,var_vector[v]]}
           #print(paste("1111111111111111ésta es la wm:", wm_temp))
           #print(paste("a partir de estas depths:", paste(HL_df$Depth_avg[pos_lakes], collapse = ' ')))
           #print(paste("y estas areas:", paste(HL_df$Lake_area[pos_lakes], collapse = ' ')))
@@ -91,11 +98,12 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
           pos_lakes <- pos_lakes[pos2_max]
           wm_temp <- HL_df$Depth_avg[pos_lakes]
           wm_matrix[c_lat,c_lon] <- wm_temp
+          for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes,var_vector[v]]}
           #print(paste("222222222222ésta es la wm:", wm_temp))
-          
         }else{
           wm_temp <- weighted_median(x=HL_df$Depth_avg[pos_lakes], w=HL_df$Lake_area[pos_lakes])
           wm_matrix[c_lat,c_lon] <- wm_temp[1]
+          for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes[wm_temp[2]],var_vector[v]]}
           #print(paste("ésta es la wm:", wm_temp[1], "con esta posición", wm_temp[2]))
           #print(paste("a partir de estas depths:", paste(HL_df$Depth_avg[pos_lakes], collapse = ' ')))
           #print(paste("y estas areas:", paste(HL_df$Lake_area[pos_lakes], collapse = ' ')))
@@ -105,8 +113,22 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
   }
 }
 
+## converting to raster and writing data
+#depth
 wm_raster <- raster(wm_matrix)
 extent(wm_raster) <- extent(c(-180,180,-90,90))
 crs(wm_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
-
 writeRaster(wm_raster,"/home/ry4902/ISIMIP_Lake_Sector/test.tif", overwrite=T)
+#rest of variables
+for (v in 1:length(var_vector)){
+  HL_name <- names(HL_df)[var_vector[v]]
+  wm_raster <- raster(wm_list[[v]])
+  extent(wm_raster) <- extent(c(-180,180,-90,90))
+  crs(wm_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+  writeRaster(wm_raster, paste0("/home/ry4902/ISIMIP_Lake_Sector/test",HL_name,".tif"), overwrite=T)
+}
+
+## save shapefile with the final selected lakes
+HL_id <- wm_list[[1]][!is.na(wm_list[[1]])]
+field_id_pts <- subset(HL_sf, HL_sf$Hylak_id %in% HL_id)
+st_write(field_id_pts, "/home/ry4902/ISIMIP_Lake_Sector/HL_selected.shp")
