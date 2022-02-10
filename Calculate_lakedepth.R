@@ -72,6 +72,7 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
     c_lat <- c_lat+1
     pos_lakes <- which( (HL_df$X>lon & HL_df$X<=(lon+0.5)) & (HL_df$Y<lat & HL_df$Y>=(lat-0.5)) ) 
     if (length(pos_lakes)>0){  #only doing something when having a lake
+      print(paste("start lon", lon, "and lat", lat))
       max_val <- max(HL_df$Lake_area[pos_lakes])
       if(max_val>3080){  #writing data for lakes > 3080km2
         if (length(pos_lakes)>1){  #just in case, but we shouldn't have this warning
@@ -88,7 +89,7 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
         }else if(length(pos_lakes)==2){  #writing data when only two lakes lie in a pixel, the lake with greater area is selected
           pos2_max <- which(HL_df$Lake_area[pos_lakes]==max(HL_df$Lake_area[pos_lakes]))
           pos_lakes <- pos_lakes[pos2_max]
-          wm_temp <- HL_df$Depth_avg[pos_lakes]
+          wm_temp <- HL_df$Depth_avg[pos_lakes][1]
           wm_matrix[c_lat,c_lon] <- wm_temp
           for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes,var_vector[v]]}
         }else{ #writing data when only two lakes lie in a pixel, the weighted_median function is applied to select the lake
@@ -97,6 +98,7 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
           for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes[wm_temp[2]],var_vector[v]]}
         }
       }
+      print(paste("end lon", lon, "and lat", lat))
     }
   }
 }
