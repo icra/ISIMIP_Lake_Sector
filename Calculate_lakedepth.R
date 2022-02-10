@@ -31,7 +31,7 @@ weighted_median <- function(x, w){
   x_o <- x[oo]
   w_o <- w[oo]
   Fx <- cumsum(w_o)/sum(w_o)
-
+  
   #'
   #this method is apply when having more than 2 points
   out <- approx(Fx, x_o, xout=probs, ties="ordered", rule=2,
@@ -47,7 +47,7 @@ weighted_median <- function(x, w){
 }
 
 ## opening HydroLAKES
-HL <- shapefile("/home/ry4902/ISIMIP_Lake_Sector/input/HL_test.shp")
+HL <- shapefile("input/HydroLAKES_polys_v10.shp")
 
 ## calculate "pseudocentroid" inside polygon  
 HL_sf <- st_as_sf(HL) 
@@ -75,21 +75,24 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
       print(paste("start lon", lon, "and lat", lat))
       max_val <- max(HL_df$Lake_area[pos_lakes])
       if(max_val>3080){  #writing data for lakes > 3080km2
-        if (length(pos_lakes)>1){  #just in case, but we shouldn't have this warning
+        if (which(HL_df$Lake_area[pos_lakes]>3080)>1){  #just in case, but we shouldn't have this warning
           print("hay dos lagos grandes OJO")
           stop("hay dos lagos grandes OJO")
         }
-        wm_matrix[c_lat,c_lon] <- HL_df$Depth_avg[pos_lakes]
+        posbig_max <- which(HL_df$Lake_area[pos_lakes]==max(HL_df$Lake_area[pos_lakes]))
+        pos_lakes <- pos_lakes[posbig_max]
+        wm_temp <- HL_df$Depth_avg[pos_lakes]
+        wm_matrix[c_lat,c_lon] <- wm_temp
         for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes,var_vector[v]]}
-      }else{  #writing data for lonely lakes (one lake per pixel)
-        if (length(pos_lakes)==1){
+      }else{  
+        if (length(pos_lakes)==1){ #writing data for lonely lakes (one lake per pixel)
           wm_temp <- HL_df$Depth_avg[pos_lakes]
           wm_matrix[c_lat,c_lon] <- wm_temp
           for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes,var_vector[v]]}
         }else if(length(pos_lakes)==2){  #writing data when only two lakes lie in a pixel, the lake with greater area is selected
           pos2_max <- which(HL_df$Lake_area[pos_lakes]==max(HL_df$Lake_area[pos_lakes]))
-          pos_lakes <- pos_lakes[pos2_max]
-          wm_temp <- HL_df$Depth_avg[pos_lakes][1]
+          pos_lakes <- pos_lakes[pos2_max[1]] #in case both lakes have the same area
+          wm_temp <- HL_df$Depth_avg[pos_lakes]
           wm_matrix[c_lat,c_lon] <- wm_temp
           for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes,var_vector[v]]}
         }else{ #writing data when only two lakes lie in a pixel, the weighted_median function is applied to select the lake
@@ -108,17 +111,18 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
 wm_raster <- raster(wm_matrix)
 extent(wm_raster) <- extent(c(-180,180,-90,90))
 crs(wm_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
-writeRaster(wm_raster,"/home/ry4902/ISIMIP_Lake_Sector/output/test.tif", overwrite=T)
+writeRaster(wm_raster,"output/Depht_avg.tif", overwrite=T)
 #rest of variables
 for (v in 1:length(var_vector)){
   HL_name <- names(HL_df)[var_vector[v]]
   wm_raster <- raster(wm_list[[v]])
   extent(wm_raster) <- extent(c(-180,180,-90,90))
   crs(wm_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
-  writeRaster(wm_raster, paste0("/home/ry4902/ISIMIP_Lake_Sector/output/test",HL_name,".tif"), overwrite=T)
+  writeRaster(wm_raster, paste0("output/", HL_name,".tif"), overwrite=T)
 }
 
 ## save shapefile with the final selected lakes
 HL_id <- wm_list[[1]][!is.na(wm_list[[1]])]
 HL_sf_subset <- subset(HL_sf, HL_sf$Hylak_id %in% HL_id)
-st_write(HL_sf_subset, "/home/ry4902/ISIMIP_Lake_Sector/output/HL_selected.shp")
+st_write(HL_sf_subset, "output/HL_selected.shp")
+
