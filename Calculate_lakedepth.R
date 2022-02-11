@@ -72,7 +72,7 @@ HL_df <- data.frame(st_drop_geometry(HL_cent), st_coordinates(HL_cent))
 wm_matrix <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix to save all weighted median map for depth
 
 #empty matrix to save all weighted median map for the rest of the data in HydroLAKES
-wm_list <- list();c<-0; var_vector <- c(1,6:19)
+wm_list <- list();c<-0; var_vector <- c(1,6:13,15:19)
 for (v in 1:length(var_vector)){ #vector of data to be saved from HydroLAKES database (HL_df)
   c <- c+1
   wm_list[[c]] <- matrix(data = NA, nrow=360, ncol = 720)
@@ -127,7 +127,7 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
 wm_raster <- raster(wm_matrix)
 extent(wm_raster) <- extent(c(-180,180,-90,90))
 crs(wm_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
-writeRaster(wm_raster,"output/Depht_avg.tif", overwrite=T)
+writeRaster(wm_raster,"output/Depth_avg.tif", overwrite=T)
 #rest of variables
 for (v in 1:length(var_vector)){
   HL_name <- names(HL_df)[var_vector[v]]
