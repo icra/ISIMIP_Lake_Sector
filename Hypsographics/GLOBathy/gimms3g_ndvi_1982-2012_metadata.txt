@@ -1,0 +1,45 @@
+File /home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/GLOBathy/GLOBathy_hAV_relationships.nc (NC_FORMAT_NETCDF4):
+
+     8 variables (excluding dimension variables):
+        8 byte int lake_id[total_lakes]   (Contiguous storage)  
+            long_name: Lake ID
+            description1: Unique identifier for each lake
+            description2: Matches the Hylak_id in the HydroLAKES dataset
+        double lon_lat[lonlat,total_lakes]   (Contiguous storage)  
+            long_name: Lake long and lat
+            description1: Longitude and latitude of the lake pour point
+            description2: Matches the Pour_long and Pour_lat in the HydroLAKES dataset
+        double h[z_levels,total_lakes]   (Contiguous storage)  
+            long_name: Lake stage (water level) in different z_levels
+            units: m
+            description1: The lake bottom is the reference level
+        double A[z_levels,total_lakes]   (Contiguous storage)  
+            long_name: Lake area in different z_levels
+            units: km^2
+            description1: The lake bottom is the reference level
+        double V[z_levels,total_lakes]   (Contiguous storage)  
+            long_name: Lake volume in different z_levels
+            units: km^3
+            description1: The lake bottom is the reference level
+        double f_hA[hAV_coefficients,total_lakes]   (Contiguous storage)  
+            long_name: Lake Stage-Area relationship coefficients
+            description1: function: A=ah^b
+            description2: Order of coefficients in the dataset: a, b, and R^2
+            description3: h is water level (with respect to the lake bottom) in (m) and A is area in (km^2)
+        double f_hV[hAV_coefficients,total_lakes]   (Contiguous storage)  
+            long_name: Lake Stage-Volume relationship coefficients
+            description1: function: V=ah^b
+            description2: Order of coefficients in the dataset is: a, b, and R^2
+            description3: h is water level (with respect to the lake bottom) in (m) and V is volume in (km^3)
+        double lake_attributes[physical_characteristics,total_lakes]   (Contiguous storage)  
+            long_name: Summary Lake Attributes
+            description1: Order: max depth, mean depth, surface area, total volume
+            description2: Units: (m), (m), (km^2), (km^3)
+            description3: These attributes are driven from GLOBathy dataset
+
+     5 dimensions:
+        total_lakes  Size:1427688 (no dimvar)
+        lonlat  Size:2 (no dimvar)
+        z_levels  Size:11 (no dimvar)
+        hAV_coefficients  Size:3 (no dimvar)
+        physical_characteristics  Size:4 (no dimvar)
