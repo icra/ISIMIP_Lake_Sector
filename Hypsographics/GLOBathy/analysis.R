@@ -21,10 +21,13 @@ data$Dmax_Khazaei_cone <- Dmax$Dmax_cone_m
 ratio_mm <-data$Dmax_Khazaei/data$Depth_avg 
 summary(ratio_mm)
 hist(log10(ratio_mm))
+boxplot(ratio_mm)
+abline(0,1)
 
 dif_mm <- data$Dmax_Khazaei-data$Depth_avg
 summary(dif_mm)
 hist(dif_mm)
+boxplot(dif_mm)
 
 dif_mm_cone <- data$Dmax_Khazaei_cone-data$Depth_avg
 summary(dif_mm_cone)
@@ -46,8 +49,13 @@ plot(data$Dmax_Khazaei,data$Depth_avg,log="xy")
 
 data$Vd  <- 3*data$Depth_avg/data$Dmax_Khazaei
 hist(log10(data$Vd))
+hist((data$Vd),xlim=c(0,3),breaks=400)
+
 log10(3)
 length(which(data$Vd>3))/length(data$Vd)*100
+quantile(data$Vd,0)
+boxplot((data$Vd))
+median(data$Vd)
 
 
 r <- hist(log10(data$Vd))
@@ -111,6 +119,11 @@ plot(data$Lake_area,A_Khazaei,log="xy")
 abline(1,1)
 plot(data$Depth_avg,Dmean_Khazaei,log="xy")
 abline(1,1)
+sum(data$Vol_total)
+sum(V_Khazaei)
+sum(data$Lake_area)
+sum(A_Khazaei)
+
 
 dif_area <- (data$Lake_area-A_Khazaei)/data$Lake_area*100
 hist(dif_area)
