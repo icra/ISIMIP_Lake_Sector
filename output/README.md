@@ -1,5 +1,6 @@
 
-## Variables from HydroLAKES (more detail in manual of the same database<br />
+## Variables from HydroLAKES <br />
+(more detail in manual of the same database)
 **Hylak_id:** Unique lake identifier<br />
 **Depth_avg.tif:**  Average lake depth, in meters<br />
 **Elevation.tif:** Elevation of lake surface, in meters above sea level<br />
