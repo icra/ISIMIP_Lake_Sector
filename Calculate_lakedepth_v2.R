@@ -62,12 +62,9 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
     c_lat <- c_lat+1
     pos_lakes <- which( (HL_df$X>lon & HL_df$X<=(lon+0.5)) & (HL_df$Y<lat & HL_df$Y>=(lat-0.5)) ) 
     if (length(pos_lakes)>0){  #only doing something when having a lake
+      print(paste("start lon:", lon, "and lat:", lat))  
       max_val <- max(HL_df$Lake_area[pos_lakes]) #greater area of the lakes contained in the pixel
       if(max_val>areakm2lat(lat)){ #looking for lake areas > 0.5 degrees
-        if (which(HL_df$Lake_area[pos_lakes]>areakm2lat(lat))>1){  #just in case, but we shouldn't have this warning
-          print("hay dos lagos grandes OJO")
-          stop("hay dos lagos grandes OJO")
-        }
         posbig_max <- which(HL_df$Lake_area[pos_lakes]==max_val)
         wm_biglakes[c_lat,c_lon] <- HL_df$Hylak_id[pos_lakes[posbig_max]] #save id of lakes with area > 0.5 degrees
       }
