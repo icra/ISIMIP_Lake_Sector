@@ -1,11 +1,8 @@
 
-## Variables from HydroLAKES (more detail in manual of the same database
-
-**Hylak_id:** Unique lake identifier
-
-**Depth_avg.tif:**  Average lake depth, in meters
-
-**Elevation.tif:** Elevation of lake surface, in meters above sea level
+## Variables from HydroLAKES (more detail in manual of the same database<br />
+**Hylak_id:** Unique lake identifier<br />
+**Depth_avg.tif:**  Average lake depth, in meters<br />
+**Elevation.tif:** Elevation of lake surface, in meters above sea level<br />
 **Lake_area.tif:** Lake surface area (i.e. polygon area), in square kilometers
 **Res_time.tif:** Average residence time of the lake water, in days
 **Shore_len.tif:** Length of shoreline (i.e. polygon outline), in kilometers
