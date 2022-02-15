@@ -105,3 +105,9 @@ st_write(HL_sf_subset, "output/HL_selected.shp", append=FALSE)
 
 ## save shapefile with the initial inside-polygon-centroids of all lakes
 st_write(HL_cent, "output/HL_cent.shp", append=FALSE)
+
+# save mask of big lakes
+HL_id_big <- wm_biglakes[][!is.na(wm_biglakes[])]
+HLbig_sf_subset <- subset(HL_sf, HL_sf$Hylak_id %in% HL_id_big)
+st_write(HLbig_sf_subset, "output/HL_big_mask.shp", append=FALSE)
+

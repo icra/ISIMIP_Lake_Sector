@@ -38,3 +38,7 @@ paste0("Reservoirs numbers: from ",round(length(which(HL$Lake_type==2))/length(H
        "% to ", round(length(which(ltype_data==2))/length(ltype_data)*100,2), "%")
 paste0("Natural-Reservoirs numbers: from ",round(length(which(HL$Lake_type==3))/length(HL$Lake_type)*100,2),
        "% to ", round(length(which(ltype_data==3))/length(ltype_data)*100,2), "%")
+
+#number of big lakes (>0.5 degrees)
+HLid_biglakes <- raster("output/HLid_biglakes.tif")
+length(HLid_biglakes[][!is.na(HLid_biglakes[])])
