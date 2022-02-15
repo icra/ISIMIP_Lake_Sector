@@ -68,11 +68,11 @@ for (lon in seq(-180, 179.5, 0.5)){ #loop in longitude
         posbig_max <- which(HL_df$Lake_area[pos_lakes]==max_val)
         wm_biglakes[c_lat,c_lon] <- HL_df$Hylak_id[pos_lakes[posbig_max]] #save id of lakes with area > 0.5 degrees
       }
-      wm_temp <- weightedMedian(HL_df$Depth_avg[pos_lakes],HL_df$Lake_area[pos_lakes],interpolate=F, ties="max")
-      wm_matrix[c_lat,c_lon] <- wm_temp
-      position_subset <- which(HL_df$Depth_avg[pos_lakes]==wm_temp)
-      if (length(position_subset)>1){ position_subset <- which(HL_df$Lake_area[pos_lakes[position_subset]] == max(HL_df$Lake_area[pos_lakes[position_subset]]))}
-      if (length(position_subset)>1){ position_subset <- 1}
+      wm_temp <- weightedMedian(HL_df$Depth_avg[pos_lakes],HL_df$Lake_area[pos_lakes],interpolate=F, ties="max") #weighted median calculation
+      wm_matrix[c_lat,c_lon] <- wm_temp #add to final matrix
+      position_subset <- which(HL_df$Depth_avg[pos_lakes]==wm_temp) #find position to write more variables
+      if (length(position_subset)>1){position_subset <- which(HL_df$Lake_area[pos_lakes[position_subset]] == max(HL_df$Lake_area[pos_lakes[position_subset]]))}
+      if (length(position_subset)>1){position_subset <- 1}
       for (v in 1:length(var_vector)){wm_list[[v]][c_lat,c_lon] <- HL_df[pos_lakes[position_subset],var_vector[v]]}
     }
   }
