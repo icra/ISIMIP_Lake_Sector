@@ -18,7 +18,7 @@
 **Wshd_area.tif:** Area of the watershed associated with the lake, in square kilometers<br />
 
 ## Other variables<br />
-**HLid_biglakes.tif:** ID of big lakes, i.e., with area great than 0.5 degrees <br />
+**HLid_biglakes.tif:** ID of big lakes, i.e., with area greater than 0.5 degrees <br />
 **HL_selected.shp:** shapefile of the final selected lakes for each pixel<br />
 **HL_big.shp:** shapefile containing the big lakes (with area great than 0.5 degrees), this can be used as mask for postprocessing and plotting<br />
 **HL_cent.shp** file is not in this folder due to its size, but it could be requested to the authors if needed<br />
