@@ -21,9 +21,9 @@
 **HLid_biglakes.tif:** ID of big lakes, i.e., with area greater than 0.5 degrees <br />
 **HL_selected.shp:** shapefile of the final selected lakes for each pixel<br />
 **HL_big.shp:** shapefile containing the big lakes (with area great than 0.5 degrees), this can be used as mask for postprocessing and plotting<br />
-**HL_big_raster.tif:** outcome of rasterising HL_big.shp
-**HL_big_raster_total.tif [ISIMIP]:** outcome of merging HL_big_raster.tif and HLid_biglakes.tif. This merge was implemented because when doing the rasterisation of HL_big.shp some of the lakes were not represented in the final raster 
-**HL_cent.shp** file is not in this folder due to its size, but it could be requested to the authors if needed
+**HL_big_raster.tif:** outcome of rasterising HL_big.shp />
+**HL_big_raster_total.tif [ISIMIP]:** outcome of merging HL_big_raster.tif and HLid_biglakes.tif. This merge was implemented because when doing the rasterisation of HL_big.shp some of the lakes were not represented in the final raster />
+**HL_cent.shp** file is not in this folder due to its size, but it could be requested to the authors if needed />
 
 ## Plots<br />
 **area_density.pdf:** density plot of area values of: HydroLAKES (black, 1.4 million of lakes), representative lakes after weighted median (blue, 41000 pixels) and representative lakes after median (red, 41000 pixels)<br />
