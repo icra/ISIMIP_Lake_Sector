@@ -1,4 +1,3 @@
-
 ## Variables from HydroLAKES <br />
 (more detail in manual of the same database)<br />
 
