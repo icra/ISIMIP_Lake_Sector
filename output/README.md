@@ -1,7 +1,7 @@
 ## Variables from HydroLAKES <br />
 (more detail in manual of the same database)<br />
 
-**[ISIMIP]** files with this are part of ISIMIP3 input data for global lake sector<br />
+**[ISIMIP]** files that are part of ISIMIP3 input data for global lake sector<br />
 
 **Hylak_id [ISIMIP]:** Unique lake identifier<br />
 **Depth_avg.tif [ISIMIP]:**  Average lake depth, in meters<br />
