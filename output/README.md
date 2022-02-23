@@ -1,6 +1,9 @@
 
 ## Variables from HydroLAKES <br />
 (more detail in manual of the same database)<br />
+
+**[ISIMIP]** files with this are part of ISIMIP3 input data for global lake sector<br />
+
 **Hylak_id [ISIMIP]:** Unique lake identifier<br />
 **Depth_avg.tif [ISIMIP]:**  Average lake depth, in meters<br />
 **Elevation.tif:** Elevation of lake surface, in meters above sea level<br />
@@ -28,5 +31,3 @@
 ## Plots<br />
 **area_density.pdf:** density plot of area values of: HydroLAKES (black, 1.4 million of lakes), representative lakes after weighted median (blue, 41000 pixels) and representative lakes after median (red, 41000 pixels)<br />
 **depth_density.pdf:** density plot of depth values of: HydroLAKES (black, 1.4 million of lakes), representative lakes after weighted median (blue, 41000 pixels) and representative lakes after median (red, 41000 pixels)<br />
-
-**[ISIMIP]** files with this are part of ISIMIP3 input data for global lake sector
