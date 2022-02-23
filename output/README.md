@@ -1,7 +1,7 @@
 
 ## Variables from HydroLAKES <br />
 (more detail in manual of the same database)<br />
-**Hylak_id:** Unique lake identifier<br />
+[ISIMIP]**Hylak_id:** Unique lake identifier<br />
 **Depth_avg.tif:**  Average lake depth, in meters<br />
 **Elevation.tif:** Elevation of lake surface, in meters above sea level<br />
 **Lake_area.tif:** Lake surface area (i.e. polygon area), in square kilometers<br />
