@@ -100,6 +100,9 @@ Dmax_nc <- ncvar_get(nc_data, "lake_attributes")
 Dmax_nc[1:4,1:3]
 
 
+
+
+
 V <- ncvar_get(nc_data, "V")
 V[1:11,1:3]
 A <- ncvar_get(nc_data, "A")
@@ -143,6 +146,31 @@ head(Dmean_Khazaei)
 Vd_Khazaei  <- 3*Dmean_Khazaei/Dmax_Khazaei
 hist((Vd_Khazaei))
 summary(Vd_Khazaei)
+
+nc_lake_ID <- ncvar_get(nc_data, "lake_id")
+dim(nc_lake_ID)
+nc_lake_ID[1427688]
+
+
+
+data_selected<-read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/HL_selected.dbf")
+head(data_selected$Hylak_id)
+
+
+Dmax_nc_selected <- Dmax_nc[,data_selected$Hylak_id]
+Dmax_nc_selected[,1:10]
+dim(Dmax_nc_selected)
+
+A_Khazaei_selected <- Dmax_nc_selected[3,]
+V_Khazaei_selected <- Dmax_nc_selected[4,]*1000
+Dmax_Khazaei_selected <- Dmax_nc_selected[1,]
+Dmean_Khazaei_selected <-Dmax_nc_selected[2,] 
+
+
+Vd_Khazaei_selected  <- 3*Dmean_Khazaei_selected/Dmax_Khazaei_selected
+hist((Vd_Khazaei_selected))
+summary(Vd_Khazaei_selected)
+
 
 #save.image(".RData")
 
