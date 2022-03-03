@@ -6,88 +6,69 @@ library(ggplot2) # package for plotting
 library(sf)
 library(dplyr)
 library(stars)
+library(viridis)
 
-#load HydroLakes
+
+#load HydroLakes polygons
 data<-read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/Area_depth February 2022/Hydrolakes/HydroLAKES_polys_v10_shp/HydroLAKES_polys_v10.dbf")
-#load Dmax from Khazaei et al. (2022)
+#load maximum depth (Dmax) from Khazaei et al. (2022)
 Dmax <-read.csv("/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/GLOBathy/GLOBathy_basic_parameters/GLOBathy_basic_parameters(ALL_LAKES).csv",header=T)
 
-#checking order. sum must be zero 
+#checking order to make sure we do not mess with different lakes, sum must be zero 
 sum(data$Hylak_id-Dmax$Hylak_id)
 
 #adding Dmax to Hydrolakes
-data$Dmax_Khazaei <- Dmax$Dmax_use_m
-data$Dmax_Khazaei_cone <- Dmax$Dmax_cone_m
+data$Dmax_Khazaei <- Dmax$Dmax_use_m #this is the one that paper reccomends
+data$Dmax_Khazaei_cone <- Dmax$Dmax_cone_m #assuming a cone, provided in that same paper
 
 
-#cheking ratios Dmax vs Dmean
+#comparing Dmax_Khazaei vs mean depth in Hydrolakes. Some impossible situations.
+#with ratios
 ratio_mm <-data$Dmax_Khazaei/data$Depth_avg 
 summary(ratio_mm)
 hist(log10(ratio_mm))
-boxplot(ratio_mm)
-abline(0,1)
 
+#with differences
 dif_mm <- data$Dmax_Khazaei-data$Depth_avg
 summary(dif_mm)
 hist(dif_mm)
 boxplot(dif_mm)
 
+#now with the cone assumption, better behaviour
 dif_mm_cone <- data$Dmax_Khazaei_cone-data$Depth_avg
 summary(dif_mm_cone)
 hist(dif_mm_cone)
 
+#percent of impossible values with Dmax_Khazaei
 length(which(dif_mm<0))/length(dif_mm)*100
-hist(log10(data$Lake_area[which(dif_mm<0)]))
-summary(data$Lake_area[which(dif_mm<0)])
 
-which(data$Lake_area==16717.890) 
-data[12,]
-
-#checking outlier
-which(ratio_mm>200)
-data[8278,]
-
-hist(log10(ratio_mm))
-plot(data$Dmax_Khazaei,data$Depth_avg,log="xy")
-
+#cheking the volume development using Dmax_Khazaei (should between 0 and 3)
 data$Vd  <- 3*data$Depth_avg/data$Dmax_Khazaei
-hist(log10(data$Vd))
-hist((data$Vd),xlim=c(0,3),breaks=400)
-
-log10(3)
-length(which(data$Vd>3))/length(data$Vd)*100
-quantile(data$Vd,0)
-boxplot((data$Vd))
-median(data$Vd)
-
-
-r <- hist(log10(data$Vd))
-plot(r)
-# or alternatively:
-barplot(r$counts, log="y", col="white", names.arg=r$breaks[-1])
 summary(data$Vd)
-#volume of a cone
-pi*R^2*h/3
-#volume of a truncated cone
-pi*h*(r^2+r*R+R^2)/3
+hist(log10(data$Vd)) 
+hist((data$Vd),xlim=c(0,3),breaks=400)
+#nonsense values (>3) and median <1, not very realistic distribution
+# 
+# #volume of a cone
+# pi*R^2*h/3
+# #volume of a truncated cone
+# pi*h*(r^2+r*R+R^2)/3
+# 
+# #volume
+# Area*mean_depth
+# pi*R^2*mean_depth
+# # pi*R^2*mean_depth
+# pi*R^2*h/3
+# 
+# mean_depth
+# h/3
+# # 3*mean_depth/h
+#
 
-#volume
-Area*mean_depth
-pi*R^2*mean_depth
-
-pi*R^2*mean_depth
-pi*R^2*h/3
-
-mean_depth
-h/3
-
-3*mean_depth/h
 
 
 
-
-
-############ Testing hypsografics
+############ Testing hypsografics in Khazaei
 nc_data <- nc_open('/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/GLOBathy/GLOBathy_hAV_relationships.nc')
 # Save the print(nc) dump to a text file
 {
@@ -95,116 +76,116 @@ nc_data <- nc_open('/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2
   print(nc_data)
   sink()
 }
+#load the depth index of the hypsografics (11 depths per)
 id <- ncvar_get(nc_data, "h")
 (id[1:11,1:11])
-ncatt_get
 
-Dmax_nc <- ncvar_get(nc_data, "lake_attributes")
-Dmax_nc[1:4,1:3]
+#load the lake attributes:max depth, mean depth, surface area, total volume (m, m, km2, km3)
+attri_nc <- ncvar_get(nc_data, "lake_attributes")
+attri_nc[1:4,1:3]
 
+#Collecting maximum volume and area, max and mean depth
+A_Khazaei <- attri_nc[3,] 
+V_Khazaei <- attri_nc[4,]
+Dmax_Khazaei <- attri_nc[1,] 
+Dmean_Khazaei <-attri_nc[2,] 
 
-
-
-
-V <- ncvar_get(nc_data, "V")
-V[1:11,1:3]
-A <- ncvar_get(nc_data, "A")
-A[1:11,1:3]
-
-V[11,1:3]/A[11,1:3]*1000
-
-A_Khazaei <- A[11,]
-V_Khazaei <- V[11,]*1000
-Dmax_Khazaei <- Dmax_nc[1,]
-Dmean_Khazaei <-Dmax_nc[2,] 
-
-
-plot(data$Vol_total,V_Khazaei,log="xy")
-abline(1,1)
+#comparing Hydrolakes and Khazaei volumes. Volume in hydrolakes is in 0.001 km3
+plot(data$Vol_total*0.001,V_Khazaei,log="xy")
+abline(0,1)
+#comparing Hydrolakes and Khazaei areas
 plot(data$Lake_area,A_Khazaei,log="xy")
-abline(1,1)
+abline(0,1)
+#comparing Hydrolakes and Khazaei mean depth
 plot(data$Depth_avg,Dmean_Khazaei,log="xy")
-abline(1,1)
-sum(data$Vol_total)
-sum(V_Khazaei)
-sum(data$Lake_area)
-sum(A_Khazaei)
+abline(0,1)
 
+#difference in total volum and area, in percent 
+(sum(V_Khazaei)-sum(data$Vol_total)*0.001)/(sum(data$Vol_total)*0.001)*100
+(sum(A_Khazaei)-sum(data$Lake_area))/(sum(data$Lake_area))*100
 
+#distribution of individual differences, in percent
 dif_area <- (data$Lake_area-A_Khazaei)/data$Lake_area*100
 hist(dif_area)
-which(dif_area==0)
 
-dif_volume <- (data$Vol_total-V_Khazaei)/data$Vol_total*100
+dif_volume <- (data$Vol_total*0.001-V_Khazaei)/(data$Vol_total*0.001)*100
 hist(dif_volume)
-which(dif_volume==0)
 
 dif_Dmean <- (data$Depth_avg-Dmean_Khazaei)/data$Depth_avg*100
 hist(dif_Dmean)
-which(dif_Dmean==0)
 
-hist((V_Khazaei/A_Khazaei-Dmean_Khazaei)/Dmean_Khazaei*100)
-head(Dmean_Khazaei)
-
+# volume development using data from Khazaei exclusively
 Vd_Khazaei  <- 3*Dmean_Khazaei/Dmax_Khazaei
 hist((Vd_Khazaei))
 summary(Vd_Khazaei)
 
+
+#ANalyzing the results for the selected representative lakes
+#recovering lakes ID from Khazaei databse
 nc_lake_ID <- ncvar_get(nc_data, "lake_id")
 dim(nc_lake_ID)
-nc_lake_ID[1427688]
 
-
-
+#loading the selected representative lakes for ISIMIP3
 data_selected<-read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/HL_selected.dbf")
 head(data_selected$Hylak_id)
-  
 
-Dmax_nc_selected <- Dmax_nc[,data_selected$Hylak_id]
-Dmax_nc_selected[,1:10]
-dim(Dmax_nc_selected)
+#attributes of the selected representative lakes  
+attri_nc_selected <- attri_nc[,data_selected$Hylak_id]
+dim(attri_nc_selected)
+attri_nc_selected[,1:10]
 
-A_Khazaei_selected <- Dmax_nc_selected[3,]
-V_Khazaei_selected <- Dmax_nc_selected[4,]*1000
-Dmax_Khazaei_selected <- Dmax_nc_selected[1,]
-Dmean_Khazaei_selected <-Dmax_nc_selected[2,] 
+#Atttributes to variables
+A_Khazaei_selected <- attri_nc_selected[3,]
+V_Khazaei_selected <- attri_nc_selected[4,]
+Dmax_Khazaei_selected <- attri_nc_selected[1,]
+Dmean_Khazaei_selected <-attri_nc_selected[2,] 
 
 
+#Volume development for selected lakes
 Vd_Khazaei_selected  <- 3*Dmean_Khazaei_selected/Dmax_Khazaei_selected
 hist((Vd_Khazaei_selected))
+
+#comparing with whole-database results
 summary(Vd_Khazaei_selected)
 summary(Vd_Khazaei)
 
 plot(density(Vd_Khazaei), col="red")
 lines(density(Vd_Khazaei_selected))
+plot(quantile(Vd_Khazaei,p=seq(0,1,0.01)),type="l")
+lines(quantile(Vd_Khazaei_selected,p=seq(0,1,0.01)), col="red")
 
-plot(data$Vol_total[data_selected$Hylak_id],V_Khazaei_selected,log="xy")
-abline(log(1),1)
+#comparing volumes and areas with Hydrolakes for selected representative lakes
+plot(data$Vol_total[data_selected$Hylak_id]*0.001,V_Khazaei_selected,log="xy")
+abline(0,1)
 plot(data$Lake_area[data_selected$Hylak_id],A_Khazaei_selected,log="xy")
-abline(log(1),1)
+abline(0,1)
 
-plot(quantile(Vd_Khazaei,p=seq(0,1,0.01)))
-points(quantile(Vd_Khazaei_selected,p=seq(0,1,0.01)), col="red")
 #save.image(".RData")
 
 plot(Dmax_Khazaei_selected,Vd_Khazaei_selected,log="x")
-plot(Dmean_Khazaei_selected,Vd_Khazaei_selected,log="x")
-
 plot(A_Khazaei_selected,Vd_Khazaei_selected,log="x")
-plot(V_Khazaei_selected,Vd_Khazaei_selected,log="x")
-plot(A_Khazaei_selected,Dmean_Khazaei_selected, log="x")
 
+
+#saving rasters for ISIMIP3
+
+#loading lake_ID of representative lakes for reference to assign values to rasters
 raster_id <- raster("/home/rmarce/ISIMIP_Lake_Sector/output/Hylak_id.tif")
 raster_id_asmatrix <- as.matrix(raster_id)#to speed up
+
+#initializing matrices that will eventually become the rasters
 matrix_vd <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
 matrix_A <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
 matrix_V <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
 matrix_Dmax <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
 matrix_Dmean <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+
+#loop for assigning values in the matrices 
 for (i in 1:360){ 
   for (j in 1:720){ 
-    print(i);print(j)
-    if (is.na(raster_id_asmatrix[i,j])) {}else{
+    #print(i);print(j)
+    if (is.na(raster_id_asmatrix[i,j])) {#to avoid the loop crashing
+      }else{
+        #identifying which lake goes to the current position
       position <- which(data_selected$Hylak_id == raster_id_asmatrix[i,j])
       matrix_vd[i,j] <-  Vd_Khazaei_selected[position]
       matrix_A[i,j] <-  A_Khazaei_selected[position]
@@ -214,8 +195,8 @@ for (i in 1:360){
     }
   }
 }
-## converting to raster and writing data
 
+## converting to raster and writing data
 Vd_raster <- raster(matrix_vd)
 A_raster <- raster(matrix_A)
 V_raster <- raster(matrix_V)
@@ -234,35 +215,29 @@ crs(V_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,
 crs(Dmax_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
 crs(Dmean_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
 
-writeRaster(Vd_raster,"Vd_raster.tif", overwrite=T)
-writeRaster(A_raster,"A_raster.tif", overwrite=T)
-writeRaster(V_raster,"V_raster.tif", overwrite=T)
-writeRaster(Dmax_raster,"Dmax_raster.tif", overwrite=T)
-writeRaster(Dmean_raster,"Dmean_raster.tif", overwrite=T)
+writeRaster(Vd_raster,"./Results/Vd_raster.tif", overwrite=T)
+writeRaster(A_raster,"./Results/A_raster.tif", overwrite=T)
+writeRaster(V_raster,"./Results/V_raster.tif", overwrite=T)
+writeRaster(Dmax_raster,"./Results/Dmax_raster.tif", overwrite=T)
+writeRaster(Dmean_raster,"./Results/Dmean_raster.tif", overwrite=T)
 
 
-polygon_ID <- rasterToPolygons(raster_id)
+plot(Vd_raster,col=viridis(2))
+plot(log10(Dmax_raster),col=viridis(2))
+
+aa<-(V_raster/(A_raster*Dmean_raster*0.001))
+summary(aa)
+hist(aa)
+#looks like rounding errors
+
+bb<-(Vd_raster/(3*Dmean_raster/Dmax_raster))
+summary(bb)
 
 
-
-polygon_ID <- st_as_sf(polygon_ID) 
-
-polygon_ID_ordered <- polygon_ID[order(polygon_ID$Hylak_id), ]
-polygon_ID_ordered$Vd <- Vd_Khazaei_selected
-polygon_ID_ordered$A <- A_Khazaei_selected
-polygon_ID_ordered$V <- V_Khazaei_selected
-polygon_ID_ordered$Dmean <- Dmean_Khazaei_selected
-polygon_ID_ordered$Dmax <- Dmax_Khazaei_selected
+#Collating hypsografics
 
 
-
-# rasterize based on geometry and a column named "value". Change the name of this column if necessary
-raster_Vd <- st_rasterize(polygon_ID_ordered %>% dplyr::select(Vd, geometry))
-write_stars(raster_Vd, "Selected_Vd.tif")
-
-
-
-#write_stars(r.enn2mean, "enn2mean.tif")
-extent(raster_Vd) <- extent(c(-180,180,-90,90))
-crs(raster_Vd) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
-writeRaster(raster_Vd,"Selected_Vd.tif", overwrite=T)
+V <- ncvar_get(nc_data, "V")
+V[1:11,1:3]
+A <- ncvar_get(nc_data, "A")
+A[1:11,1:3]
