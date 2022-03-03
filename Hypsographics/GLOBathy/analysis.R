@@ -3,6 +3,9 @@ library(ncdf4) # package for netcdf manipulation
 library(raster) # package for raster manipulation
 library(rgdal) # package for geospatial analysis
 library(ggplot2) # package for plotting
+library(sf)
+library(dplyr)
+library(stars)
 
 #load HydroLakes
 data<-read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/Area_depth February 2022/Hydrolakes/HydroLAKES_polys_v10_shp/HydroLAKES_polys_v10.dbf")
@@ -155,7 +158,7 @@ nc_lake_ID[1427688]
 
 data_selected<-read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/HL_selected.dbf")
 head(data_selected$Hylak_id)
-
+  
 
 Dmax_nc_selected <- Dmax_nc[,data_selected$Hylak_id]
 Dmax_nc_selected[,1:10]
@@ -170,7 +173,96 @@ Dmean_Khazaei_selected <-Dmax_nc_selected[2,]
 Vd_Khazaei_selected  <- 3*Dmean_Khazaei_selected/Dmax_Khazaei_selected
 hist((Vd_Khazaei_selected))
 summary(Vd_Khazaei_selected)
+summary(Vd_Khazaei)
 
+plot(density(Vd_Khazaei), col="red")
+lines(density(Vd_Khazaei_selected))
 
+plot(data$Vol_total[data_selected$Hylak_id],V_Khazaei_selected,log="xy")
+abline(log(1),1)
+plot(data$Lake_area[data_selected$Hylak_id],A_Khazaei_selected,log="xy")
+abline(log(1),1)
+
+plot(quantile(Vd_Khazaei,p=seq(0,1,0.01)))
+points(quantile(Vd_Khazaei_selected,p=seq(0,1,0.01)), col="red")
 #save.image(".RData")
 
+plot(Dmax_Khazaei_selected,Vd_Khazaei_selected,log="x")
+plot(Dmean_Khazaei_selected,Vd_Khazaei_selected,log="x")
+
+plot(A_Khazaei_selected,Vd_Khazaei_selected,log="x")
+plot(V_Khazaei_selected,Vd_Khazaei_selected,log="x")
+plot(A_Khazaei_selected,Dmean_Khazaei_selected, log="x")
+
+raster_id <- raster("/home/rmarce/ISIMIP_Lake_Sector/output/Hylak_id.tif")
+raster_id_asmatrix <- as.matrix(raster_id)#to speed up
+matrix_vd <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+matrix_A <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+matrix_V <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+matrix_Dmax <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+matrix_Dmean <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+for (i in 1:360){ 
+  for (j in 1:720){ 
+    print(i);print(j)
+    if (is.na(raster_id_asmatrix[i,j])) {}else{
+      position <- which(data_selected$Hylak_id == raster_id_asmatrix[i,j])
+      matrix_vd[i,j] <-  Vd_Khazaei_selected[position]
+      matrix_A[i,j] <-  A_Khazaei_selected[position]
+      matrix_V[i,j] <-  V_Khazaei_selected[position]
+      matrix_Dmax[i,j] <-  Dmax_Khazaei_selected[position]
+      matrix_Dmean[i,j] <-  Dmean_Khazaei_selected[position]
+    }
+  }
+}
+## converting to raster and writing data
+
+Vd_raster <- raster(matrix_vd)
+A_raster <- raster(matrix_A)
+V_raster <- raster(matrix_V)
+Dmax_raster <- raster(matrix_Dmax)
+Dmean_raster <- raster(matrix_Dmean)
+
+extent(Vd_raster) <- extent(c(-180,180,-90,90))
+extent(A_raster) <- extent(c(-180,180,-90,90))
+extent(V_raster) <- extent(c(-180,180,-90,90))
+extent(Dmax_raster) <- extent(c(-180,180,-90,90))
+extent(Dmean_raster) <- extent(c(-180,180,-90,90))
+
+crs(Vd_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+crs(A_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+crs(V_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+crs(Dmax_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+crs(Dmean_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+
+writeRaster(Vd_raster,"Vd_raster.tif", overwrite=T)
+writeRaster(A_raster,"A_raster.tif", overwrite=T)
+writeRaster(V_raster,"V_raster.tif", overwrite=T)
+writeRaster(Dmax_raster,"Dmax_raster.tif", overwrite=T)
+writeRaster(Dmean_raster,"Dmean_raster.tif", overwrite=T)
+
+
+polygon_ID <- rasterToPolygons(raster_id)
+
+
+
+polygon_ID <- st_as_sf(polygon_ID) 
+
+polygon_ID_ordered <- polygon_ID[order(polygon_ID$Hylak_id), ]
+polygon_ID_ordered$Vd <- Vd_Khazaei_selected
+polygon_ID_ordered$A <- A_Khazaei_selected
+polygon_ID_ordered$V <- V_Khazaei_selected
+polygon_ID_ordered$Dmean <- Dmean_Khazaei_selected
+polygon_ID_ordered$Dmax <- Dmax_Khazaei_selected
+
+
+
+# rasterize based on geometry and a column named "value". Change the name of this column if necessary
+raster_Vd <- st_rasterize(polygon_ID_ordered %>% dplyr::select(Vd, geometry))
+write_stars(raster_Vd, "Selected_Vd.tif")
+
+
+
+#write_stars(r.enn2mean, "enn2mean.tif")
+extent(raster_Vd) <- extent(c(-180,180,-90,90))
+crs(raster_Vd) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+writeRaster(raster_Vd,"Selected_Vd.tif", overwrite=T)
