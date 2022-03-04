@@ -1,0 +1,342 @@
+---
+title: "Analysis of Hydrolakes and Globathy databases to generate lake morphometry for ISIMIP3"
+author: "Rafael Marcé and Daniel Mercado, "
+date: "March 2022"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Antecedents
+
+During the ISIMIP Lake Sector in February 2022 the community decides to change the strategy to define representative lakes per pixel for ISIMIP3 runs. In a separate prevuious analysis, the representative lakes per pixel have been identified calculating the weighted median lake depth, using lake area as weights. In this way, individual lakes have been selected at each pixel, for a total of 41449 lakes. The selected lakes correspond to real lakes in the HydroLakes database. 
+
+In this part of the analysis, we will define the morphometry of each lake (hypsographic curve). In ISIMIP2 all lakes had a cylyndrical shape, and the majority of modellers were in favour of trying to define a more realistic shape for each representative lake.
+
+Taking advantage of the recent publication of the GLOBATHY database (https://www.nature.com/articles/s41597-022-01132-9), which estimates maximum depth and bathymetric information for all lakes in Hydrolakes, we analyze which is the best alternative to represent lake morphometry in the most efficient way in ISIMIP3 runs.
+
+This task was led by the authors above, with contributions by Inne Vanderkelen, Maddalena Tigli, Iestyn Woolway, Annette Janssen, Benjamin Kraemer, Mahtab Yaghouti, Sebastiano Piccolroaz, Wim Thiery, and Don Pierson
+
+## Opening databases and checking coherence
+
+```{r libraries, message=FALSE, warning=FALSE, echo=FALSE}
+library(foreign)
+library(ncdf4) # package for netcdf manipulation
+library(raster) # package for raster manipulation
+library(rgdal) # package for geospatial analysis
+library(ggplot2) # package for plotting
+library(sf)
+library(dplyr)
+library(stars)
+library(viridis)
+```
+
+Loading the attribute table of the HydroLakes polygons (~1.4M lakes). You will likely have to insert your local path to find the file - too big to be stored at Github
+```{r}
+HydroLakes <- read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/Area_depth February 2022/Hydrolakes/HydroLAKES_polys_v10_shp/HydroLAKES_polys_v10.dbf")
+```
+
+Loading basic morphometric parameters from Khazaei et al. (2022)
+```{r}
+Globathy_basic <-read.csv("/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/GLOBathy/GLOBathy_basic_parameters/GLOBathy_basic_parameters(ALL_LAKES).csv",header=T)
+```
+
+Checking order to make sure we do not mess with different lakes, this sum must be zero 
+```{r}
+sum(HydroLakes$Hylak_id-Globathy_basic$Hylak_id)
+```
+
+Adding maximum depth (Dmax) from Globathy to HydroLakes. Using the Dmax result reccommended in Khazaei et al. (2022) from several alternatives
+```{r}
+HydroLakes$Dmax_Khazaei <- Globathy_basic$Dmax_use_m
+```
+
+Comparing Dmax in Globathy vs Dmean in HydroLakes. Some impossible situations (Dmax<mean depth)
+
+Using ratios:
+
+```{r}
+ratio_mm <-HydroLakes$Dmax_Khazaei/HydroLakes$Depth_avg 
+summary(ratio_mm)
+hist(log10(ratio_mm))
+```
+
+Using differences:
+
+```{r}
+dif_mm <- HydroLakes$Dmax_Khazaei-HydroLakes$Depth_avg
+summary(dif_mm)
+hist(dif_mm)
+boxplot(dif_mm)
+```
+
+Percent of impossible values using Dmax from Globathy and Dmean from HydroLakes:
+```{r}
+length(which(dif_mm<0))/length(dif_mm)*100
+```
+
+Cheking the volume development parameter (Vd) using Dmax from Globathy and Dmean from HydroLakes (should between 0 and 3)
+Note the nonsense values (>3) and the median <1, which is not very realistic considering classical literature (for instance: https://doi.org/10.1016/B978-012370626-3.00024-7, https://link.springer.com/article/10.1007/s10666-006-9069-z, http://www.jstor.org/stable/520579 )
+
+
+```{r}
+HydroLakes$Vd  <- 3*HydroLakes$Depth_avg/HydroLakes$Dmax_Khazaei
+summary(HydroLakes$Vd)
+hist(log10(HydroLakes$Vd)) 
+hist((HydroLakes$Vd),xlim=c(0,3),breaks=400)
+```
+
+## Using Globathy as the only lake morphometry source
+
+Loading extended morphological information from Globathy (NetCDF file)
+```{r}
+nc_data <- nc_open('/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/GLOBathy/GLOBathy_hAV_relationships.nc')
+# Save the print(nc) dump to a text file
+{
+  sink('gimms3g_ndvi_1982-2012_metadata.txt')
+  print(nc_data)
+  sink()
+}
+```
+
+Extracting the lake basic  attributes: max depth, mean depth, surface area, total volume (m, m, km2, km3)
+
+```{r}
+attri_nc <- ncvar_get(nc_data, "lake_attributes")
+attri_nc[1:4,1:3]#just to look at aspect
+```
+
+Collecting maximum volume and area, and maximum and mean depth
+
+```{r}
+A_Khazaei <- attri_nc[3,] 
+V_Khazaei <- attri_nc[4,]
+Dmax_Khazaei <- attri_nc[1,] 
+Dmean_Khazaei <-attri_nc[2,] 
+```
+
+Comparison with HydroLakes volume (note, volume in HydroLakes is in 0.001 km3). There are substantial differences.
+```{r}
+plot(HydroLakes$Vol_total*0.001,V_Khazaei,log="xy")
+abline(0,1)
+```
+
+The same using percent differences:
+```{r}
+dif_volume <- (HydroLakes$Vol_total*0.001-V_Khazaei)/(HydroLakes$Vol_total*0.001)*100
+hist(dif_volume)
+```
+
+Comparison with HydroLakes areas. Very small differences, probably related to rasterization in Khazaei procedure
+```{r}
+plot(HydroLakes$Lake_area,A_Khazaei,log="xy")
+abline(0,1)
+```
+The same using percent difference
+```{r}
+dif_area <- (HydroLakes$Lake_area-A_Khazaei)/HydroLakes$Lake_area*100
+hist(dif_area)
+```
+
+
+
+Comparison with HydroLakes mean depth. Substantial differences (this coherent with the volume comparison)
+```{r}
+plot(HydroLakes$Depth_avg,Dmean_Khazaei,log="xy")
+abline(0,1)
+```
+
+The same using percent differences:
+```{r}
+dif_Dmean <- (HydroLakes$Depth_avg-Dmean_Khazaei)/HydroLakes$Depth_avg*100
+hist(dif_Dmean)
+```
+
+
+
+Comparing overall volume and area (sum of all lakes), in percent. Again, area is virtually the same, volume is substantially different. We will have to accept this difference between Globathy and a frequently used reference product (HydroLakes) for the shake of coherence between morphological parameters (that is, using only Globathy estimates instead of merging Dmax from Globathy with Area and Dmean from HydroLakes)
+```{r}
+(sum(V_Khazaei)-sum(HydroLakes$Vol_total)*0.001)/(sum(HydroLakes$Vol_total)*0.001)*100
+(sum(A_Khazaei)-sum(HydroLakes$Lake_area))/(sum(HydroLakes$Lake_area))*100
+```
+
+
+
+Let's see which is the distribution of the volume development parameter when using data from Khazaei exclusively. The result is very good, well centered in values slightly above one, with no values >3. Nice distribution coherent with what is expected for a large population of lakes. 
+```{r}
+Vd_Khazaei  <- 3*Dmean_Khazaei/Dmax_Khazaei
+summary(Vd_Khazaei)
+hist((Vd_Khazaei))
+```
+
+
+## ANalyzing Globathy morphological parameters for the selected representative lakes in ISIMIP3
+
+Extracting lakes ID from Globathy databse
+```{r}
+nc_lake_ID <- ncvar_get(nc_data, "lake_id")
+dim(nc_lake_ID)
+```
+
+Loading the shapefile attribute table with the selected representative lakes for ISIMIP3
+```{r}
+data_selected<-read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/HL_selected.dbf")
+head(data_selected$Hylak_id)
+```
+
+Subsetting the Globathy attributes for the selected representative lakes  
+```{r}
+attri_nc_selected <- attri_nc[,data_selected$Hylak_id]
+dim(attri_nc_selected)
+attri_nc_selected[,1:10]
+```
+
+Atttributes to variables
+```{r}
+A_Khazaei_selected <- attri_nc_selected[3,]
+V_Khazaei_selected <- attri_nc_selected[4,]
+Dmax_Khazaei_selected <- attri_nc_selected[1,]
+Dmean_Khazaei_selected <-attri_nc_selected[2,] 
+```
+
+
+Volume development (Vd) for selected representative lakes and comparison with the distribution of the 1.4M lakes (in red the global distirbution, in black the representative lakes). There is a bias towards smaller Kd values, probably becasue we are biased towards larger lakes in the represnetive lakes selection. 
+```{r}
+Vd_Khazaei_selected  <- 3*Dmean_Khazaei_selected/Dmax_Khazaei_selected
+summary(Vd_Khazaei_selected)
+summary(Vd_Khazaei)
+plot(density(Vd_Khazaei), col="red")
+lines(density(Vd_Khazaei_selected))
+p=seq(0,1,0.01)
+plot(quantile(Vd_Khazaei,p), p, type="l", col="red",xlab="Vd")
+lines(quantile(Vd_Khazaei_selected,p), p)
+```
+
+Comparing volumes and areas in Globathy with Hydrolakes for selected representative lakes. Similar result as above when comparing the whole dataset.
+```{r}
+plot(HydroLakes$Vol_total[data_selected$Hylak_id]*0.001,V_Khazaei_selected,log="xy")
+abline(0,1)
+plot(HydroLakes$Lake_area[data_selected$Hylak_id],A_Khazaei_selected,log="xy")
+abline(0,1)
+```
+
+Just out of curiosity, Vd has a dependency on Area. Larger lakes have more shallow litoral areas.  
+```{r}
+plot(A_Khazaei_selected,Vd_Khazaei_selected,log="x")
+```
+
+
+## Saving rasters with basic morphometric parameters for ISIMIP3 using Globathy data exclusively
+
+```{r}
+#loading lake_ID of representative lakes for reference to assign values to rasters
+raster_id <- raster("/home/rmarce/ISIMIP_Lake_Sector/output/Hylak_id.tif")
+raster_id_asmatrix <- as.matrix(raster_id)#to speed up
+
+#initializing matrices that will eventually become the rasters
+matrix_vd <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+matrix_A <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+matrix_V <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+matrix_Dmax <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+matrix_Dmean <- matrix(data = NA, nrow=360, ncol = 720) #empty matrix
+
+#loop for assigning values in the matrices 
+for (i in 1:360){ 
+  for (j in 1:720){ 
+    #print(i);print(j)
+    if (is.na(raster_id_asmatrix[i,j])) {#to avoid the loop crashing
+      }else{
+        #identifying which lake goes to the current position
+      position <- which(data_selected$Hylak_id == raster_id_asmatrix[i,j])
+      matrix_vd[i,j] <-  Vd_Khazaei_selected[position]
+      matrix_A[i,j] <-  A_Khazaei_selected[position]
+      matrix_V[i,j] <-  V_Khazaei_selected[position]
+      matrix_Dmax[i,j] <-  Dmax_Khazaei_selected[position]
+      matrix_Dmean[i,j] <-  Dmean_Khazaei_selected[position]
+    }
+  }
+}
+
+## converting to raster and writing data
+Vd_raster <- raster(matrix_vd)
+A_raster <- raster(matrix_A)
+V_raster <- raster(matrix_V)
+Dmax_raster <- raster(matrix_Dmax)
+Dmean_raster <- raster(matrix_Dmean)
+
+extent(Vd_raster) <- extent(c(-180,180,-90,90))
+extent(A_raster) <- extent(c(-180,180,-90,90))
+extent(V_raster) <- extent(c(-180,180,-90,90))
+extent(Dmax_raster) <- extent(c(-180,180,-90,90))
+extent(Dmean_raster) <- extent(c(-180,180,-90,90))
+
+crs(Vd_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0"
+crs(A_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+crs(V_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+crs(Dmax_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+crs(Dmean_raster) <- "+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0" 
+
+writeRaster(Vd_raster,"./Results/Vd_raster.tif", overwrite=T)
+writeRaster(A_raster,"./Results/A_raster.tif", overwrite=T)
+writeRaster(V_raster,"./Results/V_raster.tif", overwrite=T)
+writeRaster(Dmax_raster,"./Results/Dmax_raster.tif", overwrite=T)
+writeRaster(Dmean_raster,"./Results/Dmean_raster.tif", overwrite=T)
+```
+
+Both Vd and Dmax show very interesting spatial patterns, very nice to have this for ISIMIP3 runs!
+```{r}
+plot(Vd_raster,col=viridis(2),main="Vd")
+plot(log10(Dmax_raster),col=viridis(2), main="Dmax")
+```
+
+Cheching Vd raster against area and Dmean rasters. Errors look like rounding errors during calculations
+```{r}
+aa<-(V_raster/(A_raster*Dmean_raster*0.001))
+summary(aa)
+hist(aa)
+```
+
+Cheching Vd raster against the calculation  using the corresponding rasters. No errors
+```{r}
+bb<-(Vd_raster/(3*Dmean_raster/Dmax_raster))
+summary(bb)
+```
+
+
+## Producing a NetCDF file with hypsografics for all ISIMIP3 representative lakes
+
+attributes(nc_data)$names
+
+
+print(paste("The file has",nc_data$nvars,"variables,",nc_data$ndims,"dimensions and",nc_data$natts,"NetCDF attributes"))
+ncatt_get(nc_data, attributes(nc_data$var)$names[1])
+ncatt_get(nc_data, attributes(nc_data$var)$names[2])
+ncatt_get(nc_data, attributes(nc_data$var)$names[3])
+ncatt_get(nc_data, attributes(nc_data$var)$names[4])
+ncatt_get(nc_data, attributes(nc_data$var)$names[5])
+ncatt_get(nc_data, attributes(nc_data$var)$names[6])
+ncatt_get(nc_data, attributes(nc_data$var)$names[7])
+ncatt_get(nc_data, attributes(nc_data$var)$names[8])
+
+
+dim(ncvar_get(nc_data, attributes(nc_data$var)$names[1]))
+dim(ncvar_get(nc_data, attributes(nc_data$var)$names[2]))
+dim(ncvar_get(nc_data, attributes(nc_data$var)$names[3]))
+dim(ncvar_get(nc_data, attributes(nc_data$var)$names[4]))
+dim(ncvar_get(nc_data, attributes(nc_data$var)$names[5]))
+dim(ncvar_get(nc_data, attributes(nc_data$var)$names[6]))
+dim(ncvar_get(nc_data, attributes(nc_data$var)$names[7]))
+dim(ncvar_get(nc_data, attributes(nc_data$var)$names[8]))
+
+
+Extracting the depth index of the hypsografics (11 depths per lake)
+id <- ncvar_get(nc_data, "h")
+(id[1:11,1:11])
+
+V <- ncvar_get(nc_data, "V")
+V[1:11,1:3]
+A <- ncvar_get(nc_data, "A")
+A[1:11,1:3]
+
