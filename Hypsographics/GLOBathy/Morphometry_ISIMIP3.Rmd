@@ -2,7 +2,9 @@
 title: "Analysis of Hydrolakes and Globathy databases to generate lake morphometry for ISIMIP3"
 author: "Rafael Marcé and Daniel Mercado, "
 date: "March 2022"
-output: github_document
+output: 
+#  html_document: default
+  github_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -31,14 +33,16 @@ library(sf)
 library(dplyr)
 library(stars)
 library(viridis)
+setwd("~/ISIMIP_Lake_Sector/Hypsographics/GLOBathy")
 ```
 
-Loading the attribute table of the HydroLakes polygons (~1.4M lakes). You will likely have to insert your local path to find the file - too big to be stored at Github
+Loading the attribute table of the HydroLakes polygons (~1.4M lakes). You will likely have to insert your local path to find the file - too big to be stored at Github. Can be downloaded from here:
+https://97dc600d3ccc765f840c-d5a4231de41cd7a15e06ac00b0bcc552.ssl.cf5.rackcdn.com/HydroLAKES_polys_v10_shp.zip
 ```{r}
 HydroLakes <- read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/Area_depth February 2022/Hydrolakes/HydroLAKES_polys_v10_shp/HydroLAKES_polys_v10.dbf")
 ```
 
-Loading basic morphometric parameters from Khazaei et al. (2022)
+Loading basic morphometric parameters from Khazaei et al. (2022). Can be downloaded here: https://springernature.figshare.com/collections/GLOBathy_the_Global_Lakes_Bathymetry_Dataset/5243309
 ```{r}
 Globathy_basic <-read.csv("/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/GLOBathy/GLOBathy_basic_parameters/GLOBathy_basic_parameters(ALL_LAKES).csv",header=T)
 ```
@@ -91,6 +95,7 @@ hist((HydroLakes$Vd),xlim=c(0,3),breaks=400)
 ## Using Globathy as the only lake morphometry source
 
 Loading extended morphological information from Globathy (NetCDF file)
+Can be downloaded here: https://springernature.figshare.com/collections/GLOBathy_the_Global_Lakes_Bathymetry_Dataset/5243309
 ```{r}
 nc_data <- nc_open('/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/GLOBathy/GLOBathy_hAV_relationships.nc')
 # Save the print(nc) dump to a text file
@@ -180,7 +185,8 @@ nc_lake_ID <- ncvar_get(nc_data, "lake_id")
 dim(nc_lake_ID)
 ```
 
-Loading the shapefile attribute table with the selected representative lakes for ISIMIP3
+Loading the shapefile attribute table with the selected representative lakes for ISIMIP3. You will need to update file location.
+File downloadable here: https://u.pcloud.link/publink/show?code=XZyRpVVZaYEwrorqPtf4B20TrqqhQzOd3La7
 ```{r}
 data_selected<-read.dbf("/home/rmarce/Cloud/a. WATExR/ISIMIP/ISIMIP Lake Sector Feb 2022 - ICRA PC/HL_selected.dbf")
 head(data_selected$Hylak_id)
@@ -232,7 +238,7 @@ plot(A_Khazaei_selected,Vd_Khazaei_selected,log="x")
 
 ```{r}
 #loading lake_ID of representative lakes for reference to assign values to rasters
-raster_id <- raster("/home/rmarce/ISIMIP_Lake_Sector/output/Hylak_id.tif")
+raster_id <- raster("../../output/Hylak_id.tif")
 raster_id_asmatrix <- as.matrix(raster_id)#to speed up
 
 #initializing matrices that will eventually become the rasters
@@ -305,38 +311,88 @@ summary(bb)
 ```
 
 
-## Producing a NetCDF file with hypsografics for all ISIMIP3 representative lakes
-
-attributes(nc_data)$names
+## Producing and saving variables with the Globathy hypsografics for all ISIMIP3 representative lakes
 
 
-print(paste("The file has",nc_data$nvars,"variables,",nc_data$ndims,"dimensions and",nc_data$natts,"NetCDF attributes"))
-ncatt_get(nc_data, attributes(nc_data$var)$names[1])
-ncatt_get(nc_data, attributes(nc_data$var)$names[2])
-ncatt_get(nc_data, attributes(nc_data$var)$names[3])
-ncatt_get(nc_data, attributes(nc_data$var)$names[4])
-ncatt_get(nc_data, attributes(nc_data$var)$names[5])
-ncatt_get(nc_data, attributes(nc_data$var)$names[6])
-ncatt_get(nc_data, attributes(nc_data$var)$names[7])
-ncatt_get(nc_data, attributes(nc_data$var)$names[8])
+First we extract the lakes_ID
+```{r}
+nc_lake_ID_selected <- nc_lake_ID[data_selected$Hylak_id]
+sum(nc_lake_ID_selected-data_selected$Hylak_id) #for checking, must be zero if all fine
+write.table(nc_lake_ID_selected,"./Results/GLOBATHY_lakes_ID_representative.csv",sep=",", row.names=F, col.names=F)
+```
+
+Then the water level index for the hypsographic curves (in m)
+The lake bottom is the reference level!!! (i.e., level=0 corresponds to bottom)
+```{r}
+nc_level <- ncvar_get(nc_data, "h") #get the variable form the NetCFD object
+dim(nc_level)
+nc_level_selected <- nc_level[,nc_lake_ID_selected]
+dim(nc_level_selected)
+write.table(nc_level_selected,"./Results/GLOBATHY_hypso_levels_representative.csv",sep=",", row.names=F, col.names=F)
+```
+
+Then the Area at each level in the hypsographic curves (in km2)
+```{r}
+nc_area <- ncvar_get(nc_data, "A") #get the variable form the NetCFD object
+dim(nc_area)
+nc_area_selected <- nc_area[,nc_lake_ID_selected]
+dim(nc_area_selected)
+write.table(nc_area_selected,"./Results/GLOBATHY_hypso_areas_representative.csv",sep=",", row.names=F, col.names=F)
+```
 
 
-dim(ncvar_get(nc_data, attributes(nc_data$var)$names[1]))
-dim(ncvar_get(nc_data, attributes(nc_data$var)$names[2]))
-dim(ncvar_get(nc_data, attributes(nc_data$var)$names[3]))
-dim(ncvar_get(nc_data, attributes(nc_data$var)$names[4]))
-dim(ncvar_get(nc_data, attributes(nc_data$var)$names[5]))
-dim(ncvar_get(nc_data, attributes(nc_data$var)$names[6]))
-dim(ncvar_get(nc_data, attributes(nc_data$var)$names[7]))
-dim(ncvar_get(nc_data, attributes(nc_data$var)$names[8]))
+Then the Volume at each level in the hypsographic curves (in km3)
+```{r}
+nc_volume <- ncvar_get(nc_data, "V") #get the variable form the NetCFD object
+dim(nc_volume)
+nc_volume_selected <- nc_volume[,nc_lake_ID_selected]
+dim(nc_volume_selected)
+write.table(nc_volume_selected,"./Results/GLOBATHY_hypso_volumes_representative.csv",sep=",", row.names=F, col.names=F)
+```
 
+Next is the parameters for a fit of the Lake level-Area relationship coefficients - A=ah^b
+where h is water level (with respect to the lake bottom) in (m) and A is area in (km^2)
+a and b are fitted parameters (first and second row in the collector variable). The third row is for R2, a measure of goodness of fit.
+```{r}
+nc_fit_area <- ncvar_get(nc_data, "f_hA") #get the variable form the NetCFD object
+dim(nc_fit_area)
+nc_fit_area_selected <- nc_fit_area[,nc_lake_ID_selected]
+dim(nc_fit_area_selected)
+nc_fit_area_selected[,1:10]
+write.table(nc_fit_area_selected,"./Results/GLOBATHY_hypso_fitArea_representative.csv",sep=",", row.names=F, col.names=F)
+```
 
-Extracting the depth index of the hypsografics (11 depths per lake)
-id <- ncvar_get(nc_data, "h")
-(id[1:11,1:11])
+Next is the parameters for a fit of the Lake level-Volume relationship coefficients - V=ah^b
+where h is water level (with respect to the lake bottom) in (m) and V is volume in (km^3)
+a and b are fitted parameters (first and second row in the collector variable). The third row is for R2, a measure of goodness of fit.
+```{r}
+nc_fit_volume <- ncvar_get(nc_data, "f_hV") #get the variable form the NetCFD object
+dim(nc_fit_volume)
+nc_fit_volume_selected <- nc_fit_volume[,nc_lake_ID_selected]
+dim(nc_fit_volume_selected)
+nc_fit_volume_selected[,1:10]
+write.table(nc_fit_volume_selected,"./Results/GLOBATHY_hypso_fitVolume_representative.csv",sep=",", row.names=F, col.names=F)
+```
 
-V <- ncvar_get(nc_data, "V")
-V[1:11,1:3]
-A <- ncvar_get(nc_data, "A")
-A[1:11,1:3]
+```{r junk, message=FALSE, warning=FALSE, echo=FALSE}
+# print(paste("The file has",nc_data$nvars,"variables,",nc_data$ndims,"dimensions and",nc_data$natts,"NetCDF attributes"))
+# ncatt_get(nc_data, attributes(nc_data$var)$names[1])
+# ncatt_get(nc_data, attributes(nc_data$var)$names[2])
+# ncatt_get(nc_data, attributes(nc_data$var)$names[3])
+# ncatt_get(nc_data, attributes(nc_data$var)$names[4])
+# ncatt_get(nc_data, attributes(nc_data$var)$names[5])
+# ncatt_get(nc_data, attributes(nc_data$var)$names[6])
+# ncatt_get(nc_data, attributes(nc_data$var)$names[7])
+# ncatt_get(nc_data, attributes(nc_data$var)$names[8])
+# 
+# 
+# dim(ncvar_get(nc_data, attributes(nc_data$var)$names[1]))
+# dim(ncvar_get(nc_data, attributes(nc_data$var)$names[2]))
+# dim(ncvar_get(nc_data, attributes(nc_data$var)$names[3]))
+# dim(ncvar_get(nc_data, attributes(nc_data$var)$names[4]))
+# dim(ncvar_get(nc_data, attributes(nc_data$var)$names[5]))
+# dim(ncvar_get(nc_data, attributes(nc_data$var)$names[6]))
+# dim(ncvar_get(nc_data, attributes(nc_data$var)$names[7]))
+# dim(ncvar_get(nc_data, attributes(nc_data$var)$names[8]))
+```
 
