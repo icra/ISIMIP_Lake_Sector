@@ -115,7 +115,7 @@ length(which(dif_mm<0))/length(dif_mm)*100
 
     ## [1] 3.123091
 
-Cheking the volume development parameter (Vd) using Dmax from Globathy
+Checking the volume development parameter (Vd) using Dmax from Globathy
 and Dmean from HydroLakes (should between 0 and 3) Note the nonsense
 values (\>3) and the median \<1, which is not very realistic considering
 classical literature (for instance:
