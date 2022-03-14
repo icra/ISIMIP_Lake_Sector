@@ -20,13 +20,16 @@ dev.off()
 
 #read maps: Area and plots
 area <- raster("output/Lake_area.tif")
-area_median <- raster("/Cosas_Rafa/Results_median/Lake_area.tif")
+area_median <- raster("./Cosas_Rafa/Results_median/Lake_area.tif")
+area_rafa2<-  raster("./Cosas_Rafa/Results/Lake_area.tif")
 
 #plot
 pdf("output/area_density.pdf")
 plot(density(log10(HL$Lake_area)), ylim=c(0,2))
 lines(density(log10(area[][!is.na(area[])])), col="blue")
 lines(density(log10(area_median[][!is.na(area_median[])])), col="red")
+lines(density(log10(area_rafa2[][!is.na(area_rafa2[])])), col="green")
+
 dev.off()
 
 #read maps: lake type and plots
