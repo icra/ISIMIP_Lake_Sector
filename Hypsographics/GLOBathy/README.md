@@ -1,5 +1,4 @@
-Analysis of Hydrolakes and Globathy databases to generate lake
-morphometry for ISIMIP3
+Analysis of HydroLAKES and GLOBathy databases to generate lake morphometry for ISIMIP3
 ================
 Rafael Marcé and Daniel Mercado,
 March 2022
@@ -8,20 +7,20 @@ March 2022
 
 During the ISIMIP Lake Sector in February 2022 the community decides to
 change the strategy to define representative lakes per pixel for ISIMIP3
-runs. In a separate prevuious analysis, the representative lakes per
+runs. In a separate previous analysis, the representative lakes per
 pixel have been identified calculating the weighted median lake depth,
 using lake area as weights. In this way, individual lakes have been
 selected at each pixel, for a total of 41449 lakes. The selected lakes
-correspond to real lakes in the HydroLakes database.
+correspond to real lakes in the HydroLAKES database.
 
 In this part of the analysis, we will define the morphometry of each
 lake (hypsographic curve). In ISIMIP2 all lakes had a cylyndrical shape,
 and the majority of modellers were in favour of trying to define a more
 realistic shape for each representative lake.
 
-Taking advantage of the recent publication of the GLOBATHY database
+Taking advantage of the recent publication of the GLOBathy database
 (<https://www.nature.com/articles/s41597-022-01132-9>), which estimates
-maximum depth and bathymetric information for all lakes in Hydrolakes,
+maximum depth and bathymetric information for all lakes in HydroLAKES,
 we analyze which is the best alternative to represent lake morphometry
 in the most efficient way in ISIMIP3 runs.
 
@@ -32,7 +31,7 @@ Pierson
 
 ## Opening databases and checking coherence
 
-Loading the attribute table of the HydroLakes polygons (~1.4M lakes).
+Loading the attribute table of the HydroLAKES polygons (~1.4M lakes).
 You will likely have to insert your local path to find the file - too
 big to be stored at Github. Can be downloaded from here:
 <https://97dc600d3ccc765f840c-d5a4231de41cd7a15e06ac00b0bcc552.ssl.cf5.rackcdn.com/HydroLAKES_polys_v10_shp.zip>
@@ -58,14 +57,14 @@ sum(HydroLakes$Hylak_id-Globathy_basic$Hylak_id)
 
     ## [1] 0
 
-Adding maximum depth (Dmax) from Globathy to HydroLakes. Using the Dmax
+Adding maximum depth (Dmax) from GLOBathy to HydroLakes. Using the Dmax
 result reccommended in Khazaei et al. (2022) from several alternatives
 
 ``` r
 HydroLakes$Dmax_Khazaei <- Globathy_basic$Dmax_use_m
 ```
 
-Comparing Dmax in Globathy vs Dmean in HydroLakes. Some impossible
+Comparing Dmax in GLOBathy vs Dmean in HydroLAKES. Some impossible
 situations (Dmax\<mean depth)
 
 Using ratios:
@@ -106,8 +105,8 @@ boxplot(dif_mm)
 
 ![](Morphometry_ISIMIP3_files/figure-gfm/unnamed-chunk-6-2.png)<!-- -->
 
-Percent of impossible values using Dmax from Globathy and Dmean from
-HydroLakes:
+Percent of impossible values using Dmax from GLOBathy and Dmean from
+HydroLAKES:
 
 ``` r
 length(which(dif_mm<0))/length(dif_mm)*100
@@ -115,8 +114,8 @@ length(which(dif_mm<0))/length(dif_mm)*100
 
     ## [1] 3.123091
 
-Checking the volume development parameter (Vd) using Dmax from Globathy
-and Dmean from HydroLakes (should between 0 and 3) Note the nonsense
+Checking the volume development parameter (Vd) using Dmax from GLOBathy
+and Dmean from HydroLAKES (should between 0 and 3) Note the nonsense
 values (\>3) and the median \<1, which is not very realistic considering
 classical literature (for instance:
 <https://doi.org/10.1016/B978-012370626-3.00024-7>,
@@ -143,9 +142,9 @@ hist((HydroLakes$Vd),xlim=c(0,3),breaks=400)
 
 ![](Morphometry_ISIMIP3_files/figure-gfm/unnamed-chunk-8-2.png)<!-- -->
 
-## Using Globathy as the only lake morphometry source
+## Using GLOBathy as the only lake morphometry source
 
-Loading extended morphological information from Globathy (NetCDF file)
+Loading extended morphological information from GLOBathy (NetCDF file)
 Can be downloaded here:
 <https://springernature.figshare.com/collections/GLOBathy_the_Global_Lakes_Bathymetry_Dataset/5243309>
 
@@ -182,7 +181,7 @@ Dmax_Khazaei <- attri_nc[1,]
 Dmean_Khazaei <-attri_nc[2,] 
 ```
 
-Comparison with HydroLakes volume (note, volume in HydroLakes is in
+Comparison with HydroLAKES volume (note, volume in HydroLAKES is in
 0.001 km3). There are substantial differences.
 
 ``` r
@@ -202,7 +201,7 @@ hist(dif_volume)
 
 ![](Morphometry_ISIMIP3_files/figure-gfm/unnamed-chunk-13-1.png)<!-- -->
 
-Comparison with HydroLakes areas. Very small differences, probably
+Comparison with HydroLAKES areas. Very small differences, probably
 related to rasterization in Khazaei procedure
 
 ``` r
@@ -220,7 +219,7 @@ hist(dif_area)
 
 ![](Morphometry_ISIMIP3_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
 
-Comparison with HydroLakes mean depth. Substantial differences (this
+Comparison with HydroLAKES mean depth. Substantial differences (this
 coherent with the volume comparison)
 
 ``` r
@@ -242,11 +241,11 @@ hist(dif_Dmean)
 
 Comparing overall volume and area (sum of all lakes), in percent. Again,
 area is virtually the same, volume is substantially different. We will
-have to accept this difference between Globathy and a frequently used
-reference product (HydroLakes) for the shake of coherence between
-morphological parameters (that is, using only Globathy estimates instead
-of merging Dmax from Globathy with Area and Dmean from
-HydroLakes)
+have to accept this difference between GLOBathy and a frequently used
+reference product (HydroLAKES) for the shake of coherence between
+morphological parameters (that is, using only GLOBathy estimates instead
+of merging Dmax from GLOBathy with Area and Dmean from
+HydroLAKES)
 
 ``` r
 (sum(V_Khazaei)-sum(HydroLakes$Vol_total)*0.001)/(sum(HydroLakes$Vol_total)*0.001)*100
@@ -280,9 +279,9 @@ hist((Vd_Khazaei))
 
 ![](Morphometry_ISIMIP3_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
 
-## ANalyzing Globathy morphological parameters for the selected representative lakes in ISIMIP3
+## Aaalyzing GLOBathy morphological parameters for the selected representative lakes in ISIMIP3
 
-Extracting lakes ID from Globathy databse
+Extracting lakes ID from GLOBathy databse
 
 ``` r
 nc_lake_ID <- ncvar_get(nc_data, "lake_id")
@@ -303,7 +302,7 @@ head(data_selected$Hylak_id)
 
     ## [1] 1 2 3 4 5 6
 
-Subsetting the Globathy attributes for the selected representative lakes
+Subsetting the GLOBathy attributes for the selected representative lakes
 
 ``` r
 attri_nc_selected <- attri_nc[,data_selected$Hylak_id]
@@ -340,7 +339,7 @@ Volume development (Vd) for selected representative lakes and comparison
 with the distribution of the 1.4M lakes (in red the global distirbution,
 in black the representative lakes). There is a bias towards smaller Kd
 values, probably becasue we are biased towards larger lakes in the
-represnetive lakes selection.
+representative lakes selection.
 
 ``` r
 Vd_Khazaei_selected  <- 3*Dmean_Khazaei_selected/Dmax_Khazaei_selected
@@ -372,7 +371,7 @@ lines(quantile(Vd_Khazaei_selected,p), p)
 
 ![](Morphometry_ISIMIP3_files/figure-gfm/unnamed-chunk-24-2.png)<!-- -->
 
-Comparing volumes and areas in Globathy with Hydrolakes for selected
+Comparing volumes and areas in GLOBathy with HydroLAKES for selected
 representative lakes. Similar result as above when comparing the whole
 dataset.
 
@@ -400,7 +399,7 @@ plot(A_Khazaei_selected,Vd_Khazaei_selected,log="x")
 
 ![](Morphometry_ISIMIP3_files/figure-gfm/unnamed-chunk-26-1.png)<!-- -->
 
-## Saving rasters with basic morphometric parameters for ISIMIP3 using Globathy data exclusively
+## Saving rasters with basic morphometric parameters for ISIMIP3 using GLOBathy data exclusively
 
 ``` r
 #loading lake_ID of representative lakes for reference to assign values to rasters
@@ -510,7 +509,7 @@ summary(bb)
     ## Max.         1
     ## NA's    217751
 
-## Producing and saving variables with the Globathy hypsografics for all ISIMIP3 representative lakes
+## Producing and saving variables with the GLOBathy hypsografics for all ISIMIP3 representative lakes
 
 First we extract the lakes\_ID
 
