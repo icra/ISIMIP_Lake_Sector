@@ -4,13 +4,13 @@
 **[ISIMIP]** files that are part of ISIMIP3 input data for global lake sector<br />
 
 **Hylak_id [ISIMIP]:** Unique lake identifier<br />
-**Depth_avg.tif [ISIMIP]:**  Average lake depth, in meters<br />
+**Depth_avg.tif:**  Average lake depth, in meters<br />
 **Elevation.tif:** Elevation of lake surface, in meters above sea level<br />
-**Lake_area.tif [ISIMIP]:** Lake surface area (i.e. polygon area), in square kilometers<br />
+**Lake_area.tif:** Lake surface area (i.e. polygon area), in square kilometers<br />
 **Res_time.tif:** Average residence time of the lake water, in days<br />
 **Shore_len.tif:** Length of shoreline (i.e. polygon outline), in kilometers<br />
 **Vol_res.tif:** Reported reservoir volume, or storage volume of added lake regulation, in million cubic meters (1 mcm = 0.001 km 3 ); 0: no reservoir volume<br />
-**Vol_total.tif [ISIMIP]:** Total lake or reservoir volume, in million cubic meters (1 mcm = 0.001 km3)<br />
+**Vol_total.tif:** Total lake or reservoir volume, in million cubic meters (1 mcm = 0.001 km3)<br />
 **Dis_avg.tif:** Average long-term discharge flowing through the lake, in cubic meters per second<br />
 **Grand_id.tif:** ID of the corresponding reservoir in the GRanD database, or value 0 for no corresponding GRanD record<br />
 **Lake_type.tif:** Indicator for lake type; 1:Lake; 2:Reservoir; 3:Lake control (i.e. natural lake with regulation structure)<br />
@@ -20,7 +20,7 @@
 **Wshd_area.tif:** Area of the watershed associated with the lake, in square kilometers<br />
 
 ## Other variables<br />
-**HLid_biglakes.tif:** ID of big lakes, i.e., with area greater than 0.5 degrees <br />
+**HLid_biglakes.tif  [ISIMIP]:** ID of big lakes, i.e., with area greater than 0.5 degrees <br />
 **HL_selected.shp:** shapefile of the final selected lakes for each pixel<br />
 **HL_big.shp:** shapefile containing the big lakes (with area great than 0.5 degrees), this can be used as mask for postprocessing and plotting<br />
 **HL_big_raster.tif:** outcome of rasterising HL_big.shp <br />
