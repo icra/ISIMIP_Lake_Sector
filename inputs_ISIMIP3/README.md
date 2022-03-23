@@ -1,4 +1,4 @@
-## Variables from HydroLAKES <br />
+## Input data to use ISIMIP3 simulations <br />
 (more detail in manual of the same database)<br />
 
 **[lake_identification]** files that are outcomes from the first step (lake_identification folder in main) calculated from HydroLAKES <br />
