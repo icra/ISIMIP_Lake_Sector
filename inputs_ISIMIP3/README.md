@@ -13,3 +13,5 @@
 **Dmax_raster [Hypsographics]:** maximum lake depth, in meters <br />
 **Dmean_raster [Hypsographics]:** mean lake depth, in meters <br />
 **Vd_raster.tif [Hypsographics]:** Total lake volume, in million cubic meters (1 mcm = 0.001 km3)<br />
+
+**rasters folder [Hypsographics]:** Containsthe hypsographics data for each representative lakes<br />
