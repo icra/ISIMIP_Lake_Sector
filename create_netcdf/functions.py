@@ -130,7 +130,8 @@ def write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attr
 
     ds = xr.Dataset(data_vars={ 'lon' : lon_da,   
                                 'lat' : lat_da,
-                                variable_name : values_da},
+                                variable_name : values_da, 
+                                'levels': levels_da},
                                 attrs=attrs_global)
                                 
     ds.to_netcdf(filename_netcdf, format='NETCDF4_CLASSIC',mode='w')
