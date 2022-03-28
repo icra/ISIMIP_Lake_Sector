@@ -315,7 +315,35 @@ attrs_global = {'creation_date': date,
 write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
 
 #%%
-# Add fit volume or fit area?? 
+# ----------------------------------------------------------------
+# fit volume 
+# ----------------------------------------------------------------
+
+# define filename, variable name and attributes
+nlevels = 3
+
+filename_rasters = [directory_raster + 'rasters/fitvolume_level'+str(n)+'.tif' for n in range(1,nlevels+1)]
+filename_rasters_level = [directory_raster + 'rasters/level_level'+str(n)+'.tif' for n in range(1,nlevels+1)]
+filename_netcdf = directory_netcdf +'lake_volume.nc'
+
+variable_name = 'volume'
+# variable attributes
+attrs_variable = {'units': 'm^3', 'long_name' : 'lake volume per level '}
+attrs_levels = {'units': 'm', 'long_name' : 'lake depth level'}
+
+# global attributes
+attrs_global = {'creation_date': date,
+                        'source': 'HydroLAKES polygons dataset v1.0 June 2019, The lakedepth includes depths from reservoirs (included in HydroLAKES) and is rasterised for shallow lakes, while big lakes are assigned their unique value to all grid cells they cover.',
+                        'title': 'Max lake and reservoir depth calculated from HydroLAKES',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
+                        'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
+
+write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
 
 
 # %%
+# ----------------------------------------------------------------
+# fit area
+# ----------------------------------------------------------------
+
