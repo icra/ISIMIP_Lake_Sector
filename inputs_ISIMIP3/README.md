@@ -1,9 +1,9 @@
-## Input data to use ISIMIP3 simulations <br />
+## Input lake morphology data to use in ISIMIP3 global lakes simulations <br />
 
 **[lake_identification]** files that are outcomes from the first step (lake_identification folder in main) calculated from HydroLAKES <br />
 **[Hypsographics]** files that are outcomes from the second step (Hypsographics folder in main) extracted from GLOBathy<br />
 
-**Hylak_id.tif [lake_identification]:** unique lake identifier<br />
+**Hylak_id.tif [lake_identification]:** unique lake identifier, shared by HydroLAKES and GLOBathy<br />
 **Lake_type.tif [lake_identification]:** indicator for lake type; 1:Lake; 2:Reservoir; 3:Lake control (i.e. natural lake with regulation structure)<br />
 **HL_selected [lake_identification]:** shapefile of the final selected lakes for each pixel. Please find the HL_selected.shp file in lake_identification/output<br />
 **HLid_biglakes.tif [lake_identification]:** ID of big lakes, i.e., with area greater than 0.5 degrees <br />
