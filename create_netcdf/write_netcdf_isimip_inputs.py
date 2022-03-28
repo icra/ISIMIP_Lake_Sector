@@ -316,20 +316,18 @@ write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_va
 
 #%%
 # ----------------------------------------------------------------
-# fit volume 
+# power fit for hypsographic volume 
+# two parameters of the power fit, the third is the R2 of the fit.  
 # ----------------------------------------------------------------
-
-# define filename, variable name and attributes
 nlevels = 3
 
 filename_rasters = [directory_raster + 'rasters/fitvolume_level'+str(n)+'.tif' for n in range(1,nlevels+1)]
-filename_rasters_level = [directory_raster + 'rasters/level_level'+str(n)+'.tif' for n in range(1,nlevels+1)]
-filename_netcdf = directory_netcdf +'lake_volume.nc'
+filename_netcdf = directory_netcdf +'volume_fit.nc'
 
-variable_name = 'volume'
 # variable attributes
-attrs_variable = {'units': 'm^3', 'long_name' : 'lake volume per level '}
-attrs_levels = {'units': 'm', 'long_name' : 'lake depth level'}
+attrs_parameter1 = {'units': '-', 'long_name' : 'parameter 1 of power fit volume'}
+attrs_parameter2 = {'units': '-', 'long_name' : 'parameter 2 of power fit volume'}
+attrs_R2 = {'units': '-', 'long_name' : 'R2 of power fit volume'}
 
 # global attributes
 attrs_global = {'creation_date': date,
@@ -339,11 +337,159 @@ attrs_global = {'creation_date': date,
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
-write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
+# delete if file exists
+if os.path.isfile(filename_netcdf):
+    os.system('rm '+filename_netcdf)
 
 
+# isimip resolution hardcoded
+resolution = 0.5
+
+# read rasters 
+
+raster = gdal.Open(filename_rasters[0])
+values_individual = np.array(raster.GetRasterBand(1).ReadAsArray())
+values_parameter1 = np.flipud(values_individual) 
+
+raster = gdal.Open(filename_rasters[1])
+values_individual = np.array(raster.GetRasterBand(1).ReadAsArray())
+values_parameter2 = np.flipud(values_individual) 
+
+raster = gdal.Open(filename_rasters[2])
+values_individual = np.array(raster.GetRasterBand(1).ReadAsArray())
+values_R2 = np.flipud(values_individual) 
+
+# replace missing values (-3.4e+38 in raster) with NaNs
+values_parameter2[values_parameter2<-1000] = np.nan
+values_parameter1[values_parameter1<-1000] = np.nan
+values_R2[values_R2<-1000] = np.nan
+
+lons= np.arange(-180+resolution/2,180+resolution/2,resolution)
+lats= np.arange(-90+resolution/2,90+resolution/2,resolution)
+
+lon_da = xr.DataArray(lons, 
+                        coords = {'lon':lons}, 
+                        dims='lon', 
+                        attrs={'units':'degrees_east', 'axis':"X"})
+
+lat_da = xr.DataArray(lats,
+                        coords = {'lat':lats}, 
+                        dims='lat', 
+                        attrs={'units':'degrees_north', 'axis':"X"})
+
+values_da_parameter1 = xr.DataArray(values_parameter1, 
+                        coords = {'lon':lons,'lat':lats},
+                        dims=('lat','lon'),
+                        attrs = attrs_parameter1)
+
+values_da_parameter2 = xr.DataArray(values_parameter2, 
+                        coords = {'lon':lons,'lat':lats},
+                        dims=('lat','lon'),
+                        attrs = attrs_parameter2)
+
+values_da_R2 = xr.DataArray(values_R2, 
+                        coords = {'lon':lons,'lat':lats},
+                        dims=('lat','lon'),
+                        attrs = attrs_R2)
+
+ds = xr.Dataset(data_vars={ 'lon' : lon_da,   
+                            'lat' : lat_da,
+                            'fit_parameter1' : values_da_parameter1, 
+                            'fit_parameter2' : values_da_parameter2, 
+                            'fit_R2' : values_da_R2, 
+                            },
+                            attrs=attrs_global)
+                            
+ds.to_netcdf(filename_netcdf, format='NETCDF4_CLASSIC',mode='w')
+
+
+
+
+#%%
+# ----------------------------------------------------------------
+# power fit for hypsographic area
+# two parameters of the power fit, the third is the R2 of the fit.  
+# ----------------------------------------------------------------
+nlevels = 3
+
+filename_rasters = [directory_raster + 'rasters/fitarea_level'+str(n)+'.tif' for n in range(1,nlevels+1)]
+filename_netcdf = directory_netcdf +'area_fit.nc'
+
+# variable attributes
+attrs_parameter1 = {'units': '-', 'long_name' : 'parameter 1 of power fit area'}
+attrs_parameter2 = {'units': '-', 'long_name' : 'parameter 2 of power fit area'}
+attrs_R2 = {'units': '-', 'long_name' : 'R2 of power fit area'}
+
+# global attributes
+attrs_global = {'creation_date': date,
+                        'source': 'HydroLAKES polygons dataset v1.0 June 2019, The lakedepth includes depths from reservoirs (included in HydroLAKES) and is rasterised for shallow lakes, while big lakes are assigned their unique value to all grid cells they cover.',
+                        'title': 'Max lake and reservoir depth calculated from HydroLAKES',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
+                        'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
+
+# delete if file exists
+if os.path.isfile(filename_netcdf):
+    os.system('rm '+filename_netcdf)
+
+
+# isimip resolution hardcoded
+resolution = 0.5
+
+# read rasters 
+
+raster = gdal.Open(filename_rasters[0])
+values_individual = np.array(raster.GetRasterBand(1).ReadAsArray())
+values_parameter1 = np.flipud(values_individual) 
+
+raster = gdal.Open(filename_rasters[1])
+values_individual = np.array(raster.GetRasterBand(1).ReadAsArray())
+values_parameter2 = np.flipud(values_individual) 
+
+raster = gdal.Open(filename_rasters[2])
+values_individual = np.array(raster.GetRasterBand(1).ReadAsArray())
+values_R2 = np.flipud(values_individual) 
+
+# replace missing values (-3.4e+38 in raster) with NaNs
+values_parameter2[values_parameter2<-1000] = np.nan
+values_parameter1[values_parameter1<-1000] = np.nan
+values_R2[values_R2<-1000] = np.nan
+
+lons= np.arange(-180+resolution/2,180+resolution/2,resolution)
+lats= np.arange(-90+resolution/2,90+resolution/2,resolution)
+
+lon_da = xr.DataArray(lons, 
+                        coords = {'lon':lons}, 
+                        dims='lon', 
+                        attrs={'units':'degrees_east', 'axis':"X"})
+
+lat_da = xr.DataArray(lats,
+                        coords = {'lat':lats}, 
+                        dims='lat', 
+                        attrs={'units':'degrees_north', 'axis':"X"})
+
+values_da_parameter1 = xr.DataArray(values_parameter1, 
+                        coords = {'lon':lons,'lat':lats},
+                        dims=('lat','lon'),
+                        attrs = attrs_parameter1)
+
+values_da_parameter2 = xr.DataArray(values_parameter2, 
+                        coords = {'lon':lons,'lat':lats},
+                        dims=('lat','lon'),
+                        attrs = attrs_parameter2)
+
+values_da_R2 = xr.DataArray(values_R2, 
+                        coords = {'lon':lons,'lat':lats},
+                        dims=('lat','lon'),
+                        attrs = attrs_R2)
+
+ds = xr.Dataset(data_vars={ 'lon' : lon_da,   
+                            'lat' : lat_da,
+                            'fit_parameter1' : values_da_parameter1, 
+                            'fit_parameter2' : values_da_parameter2, 
+                            'fit_R2' : values_da_R2, 
+                            },
+                            attrs=attrs_global)
+                            
+ds.to_netcdf(filename_netcdf, format='NETCDF4_CLASSIC',mode='w')
 # %%
-# ----------------------------------------------------------------
-# fit area
-# ----------------------------------------------------------------
-
