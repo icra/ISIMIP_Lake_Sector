@@ -1,18 +1,16 @@
 ## Input lake morphology data to use in ISIMIP3 global lakes simulations <br />
+## However, we reccommend using the netcdf files in the folder **[inputs_ISIMIP3_netcedf]** <br />
 
-**[lake_identification]** files that are outcomes from the first step (lake_identification folder in main) calculated from HydroLAKES <br />
-**[Hypsographics]** files that are outcomes from the second step (Hypsographics folder in main) extracted from GLOBathy<br />
+**Hylak_id.tif (from [lake_identification]:** unique lake identifier, shared by HydroLAKES and GLOBAthy<br />
+**Lake_type.tif (from [lake_identification]:** HydroLAKES indicator for lake type; 1:Lake; 2:Reservoir; 3:Lake control (i.e. natural lake with regulation structure)<br />
+**HL_selected (from [lake_identification]:** shapefile collection of the final selected lakes for each pixel. Please, find the HL_selected.shp file in lake_identification/output <br />
+**HLid_biglakes.tif (from [lake_identification]:** ID of big lakes, for plotting purposes <br />
+**biglakes_mask (from [lake_identification]:**  mask for plotting big lakes <br />
 
-**Hylak_id.tif [lake_identification]:** unique lake identifier, shared by HydroLAKES and GLOBathy<br />
-**Lake_type.tif [lake_identification]:** indicator for lake type; 1:Lake; 2:Reservoir; 3:Lake control (i.e. natural lake with regulation structure)<br />
-**HL_selected [lake_identification]:** shapefile of the final selected lakes for each pixel. Please find the HL_selected.shp file in lake_identification/output<br />
-**HLid_biglakes.tif [lake_identification]:** ID of big lakes, i.e., with area greater than 0.5 degrees <br />
-**biglakes_mask [lake_identification]:**  mask for postprocessing and plotting big lakes (> 0.5º) <br />
+**A_raster.tif (from [Hypsographics]):** lake surface area, in square kilometers <br />
+**Dmax_raster (from [Hypsographics]):** maximum lake depth, in meters <br />
+**Dmean_raster (from [Hypsographics]):** mean lake depth, in meters <br />
+**V_raster.tif (from [Hypsographics]):** Total lake volume, in km3)<br />
+**Vd_raster.tif (from [Hypsographics]):** Volume development (unitless) <br />
 
-**A_raster.tif [Hypsographics]:** lake surface area, in square kilometers <br />
-**Dmax_raster [Hypsographics]:** maximum lake depth, in meters <br />
-**Dmean_raster [Hypsographics]:** mean lake depth, in meters <br />
-**V_raster.tif [Hypsographics]:** Total lake volume, in million cubic meters (1 mcm = 0.001 km3)<br />
-**Vd_raster.tif [Hypsographics]:** Volume development (unitless) <br />
-
-**rasters folder [Hypsographics]:** Contains the hypsographic data for each representative lakes<br />
+**[rasters_hypsographic]:** Rasters with the hypsographic information from [Hypsographics] in raster format. Generated with Calculate_rasters.R and the file isimip.sh (this is just for running the R file in Undarius) <br />

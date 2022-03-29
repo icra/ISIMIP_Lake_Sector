@@ -15,9 +15,9 @@ for (level in 1:11){
     level_level[][(level_level[]==G_id[pixel,1])] <- G_level[level,pixel]
     volume_level[][(volume_level[]==G_id[pixel,1])] <- G_volume[level,pixel]
   }
-  writeRaster(area_level, paste0("rasters/area_level",level,".tif"), overwrite=T)
-  writeRaster(level_level, paste0("rasters/level_level",level,".tif"), overwrite=T)
-  writeRaster(volume_level, paste0("rasters/volume_level",level,".tif"), overwrite=T)
+  writeRaster(area_level, paste0("rasters_hypsographic/area_level",level,".tif"), overwrite=T)
+  writeRaster(level_level, paste0("rasters_hypsographic/level_level",level,".tif"), overwrite=T)
+  writeRaster(volume_level, paste0("rasters_hypsographic/volume_level",level,".tif"), overwrite=T)
   print(paste0("termina level", level))
 }
 
@@ -32,8 +32,8 @@ for (level in 1:3){
     fitarea_level[][(fitarea_level[]==G_id[pixel,1])] <- G_fitareas[level,pixel]
     fitvolume_level[][(fitvolume_level[]==G_id[pixel,1])] <- G_fitvolume[level,pixel]
   }
-  writeRaster(area_level, paste0("rasters/fitarea_level",level,".tif"))
-  writeRaster(volume_level, paste0("rasters/fitvolume_level",level,".tif"))
+  writeRaster(area_level, paste0("rasters_hypsographic/fitarea_level",level,".tif"))
+  writeRaster(volume_level, paste0("rasters_hypsographic/fitvolume_level",level,".tif"))
   print(paste0("termina fit level",	level))
 }
 
