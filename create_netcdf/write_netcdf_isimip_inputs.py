@@ -43,7 +43,7 @@ attrs_variable = {'units': 'm', 'long_name' : 'Mean lake depth'}
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1.',
                         'title': 'Mean depth for ISIMIP3 representative lakes calculated from GLOBathy and HydroLAKES',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -66,7 +66,7 @@ attrs_variable = {'units': 'm', 'long_name' : 'Maximum lake depth'}
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1.',
                         'title': 'Maximum depth for ISIMIP3 representative lakes calculated from GLOBathy and HydroLAKES',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
@@ -90,7 +90,7 @@ attrs_variable = {'units': '-', 'long_name' : 'HydroLAKES ID'}
 attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES polygons dataset v1.0 June 2019, The ID is shared with the GLOBathy database, so they are interoperable. A representative lake for each pixel was selected as explained in the github page of the url',
                         'title': 'ID of the representative lake at each pixel, from HydroLAKES and GLOBathy',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
@@ -114,7 +114,7 @@ attrs_variable = {'units': '-', 'long_name' : 'HydroLAKES ID for big lakes'}
 attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES polygons dataset v1.0 June 2019, The ID is shared with the GLOBathy database, so they are interoperable. ',
                         'title': 'ID of very big lakes in HydroLAKES, for plotting purposes',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -137,7 +137,7 @@ attrs_variable = {'units': 'km^2', 'long_name' : 'Lake Surface Area'}
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1.',
                         'title': 'Surface Area for ISIMIP3 representative lakes calculated from GLOBathy and HydroLAKES',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
@@ -160,7 +160,7 @@ attrs_variable = {'units': 'km^3', 'long_name' : 'Lake Volume'}
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1.',
                         'title': 'Volume for ISIMIP3 representative lakes calculated from GLOBathy and HydroLAKES',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
@@ -208,7 +208,7 @@ attrs_variable = {'units': '-', 'long_name' : 'HydroLAKES Lake Type'}
 attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES polygons dataset v1.0 June 2019',
                         'title': 'Lake Type from HydroLAKES. 1: Lake; 2: Reservoir; 3: Lake control (i.e. natural lake with regulation structure)',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
@@ -231,7 +231,7 @@ attrs_variable = {'units': '-', 'long_name' : 'Biglakes mask'}
 attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES polygons dataset v1.0 June 2019',
                         'title': 'Raster mask for very big lakes from HydroLAKES, for plotting purposes',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -260,7 +260,7 @@ attrs_levels = {'units': 'm', 'long_name' : 'lake level from bottom'}
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1.',
                         'title': 'Level-Area hypsographic information for each representative lake.',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -287,7 +287,7 @@ attrs_levels = {'units': 'm', 'long_name' : 'lake level from bottom'}
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1.',
                         'title': 'Level-Volume hypsographic information for each representative lake.',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -312,7 +312,7 @@ attrs_R2 = {'units': '-', 'long_name' : 'R2 of power fit for hypsographic of vol
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1.',
                         'title': 'Parameters (a and b) and goodness of fit (R2) for the fit V=ah^b, where h is lake lavel from the bottom',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -403,7 +403,7 @@ attrs_R2 = {'units': '-', 'long_name' : 'R2 of power fit for hypsographic of are
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1.',
                         'title': 'Parameters (a and b) and goodness of fit (R2) for the fit A=ah^b, where h is lake lavel from the bottom',
-                       'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be)',
+                       'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
