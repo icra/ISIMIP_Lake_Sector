@@ -34,8 +34,8 @@ def write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name
     values = np.flipud(values)
 
 # replace missing values (-3.4e+38 in raster) with NaNs
-    values[values<-1000] = np.nan
-
+    #values[values<-1000] = np.nan
+    values[values<-1000] = 1.e+20
 
 
     lons= np.arange(-180+resolution/2,180+resolution/2,resolution)
@@ -49,7 +49,7 @@ def write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name
     lat_da = xr.DataArray(lats,
                             coords = {'lat':lats}, 
                             dims='lat', 
-                            attrs={'units':'degrees_north', 'axis':"X"})
+                            attrs={'units':'degrees_north', 'axis':"Y"})
 
 
     values_da = xr.DataArray(values, 
@@ -62,7 +62,9 @@ def write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name
                                 'lat' : lat_da,
                                 variable_name : values_da},
                                 attrs=attrs_global)
-                                
+    
+    
+    
     ds.to_netcdf(filename_netcdf, format='NETCDF4_CLASSIC',mode='w')
 
 
@@ -100,11 +102,12 @@ def write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attr
 
 
 # replace missing values (-3.4e+38 in raster) with NaNs
-    values[values<-1000] = np.nan
-    levels[levels<-1000] = np.nan
-
+    values[values<-1000] = 1.e+20
+    levels[levels<-1000] = 1.e+20
+ 
     lons= np.arange(-180+resolution/2,180+resolution/2,resolution)
     lats= np.arange(-90+resolution/2,90+resolution/2,resolution)
+    
     levlaks = np.arange(1,np.shape(values)[0]+1)
 
     lon_da = xr.DataArray(lons, 
@@ -115,7 +118,7 @@ def write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attr
     lat_da = xr.DataArray(lats,
                             coords = {'lat':lats}, 
                             dims='lat', 
-                            attrs={'units':'degrees_north', 'axis':"X"})
+                            attrs={'units':'degrees_north', 'axis':"Y"})
 
 
     values_da = xr.DataArray(values, 

@@ -14,7 +14,7 @@ import numpy as np
 from datetime import date
 import gdal
 import os 
-from functions import *
+#from functions import *
 
 # add today (for saving to netCDF later)
 today = date.today()
@@ -48,6 +48,10 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
+
 
 #%%
 # ----------------------------------------------------------------
@@ -71,7 +75,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 # %%
 # ----------------------------------------------------------------
@@ -95,7 +101,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 #%%
 # ----------------------------------------------------------------
@@ -119,7 +127,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 #%%
 # ----------------------------------------------------------------
 # Area raster
@@ -142,7 +152,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 #%%
 # ----------------------------------------------------------------
 # Volume raster
@@ -165,7 +177,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 # RAFA: better we do not include this, because it is not going to be used during simulations 
 # #%%
@@ -213,7 +227,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 # %%
 # ----------------------------------------------------------------
 # Big lakes mask
@@ -236,7 +252,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 
 #%%
@@ -265,7 +283,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 # %%
 # ----------------------------------------------------------------
 # volume per level
@@ -292,7 +312,9 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 #%%
 # ----------------------------------------------------------------
 # power fit for hypsographic curve for volume 
@@ -380,7 +402,9 @@ ds = xr.Dataset(data_vars={ 'lon' : lon_da,
                             attrs=attrs_global)
                             
 ds.to_netcdf(filename_netcdf, format='NETCDF4_CLASSIC',mode='w')
-
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 
 
@@ -471,4 +495,7 @@ ds = xr.Dataset(data_vars={ 'lon' : lon_da,
                             attrs=attrs_global)
                             
 ds.to_netcdf(filename_netcdf, format='NETCDF4_CLASSIC',mode='w')
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 # %%

@@ -4,9 +4,17 @@ library(viridis)
 
 nc_data <- nc_open("/home/rmarce/ISIMIP_Lake_Sector/inputs_ISIMIP3_netcdf/Reference/biglakes_mask.nc")
 
+nc_data_2 <- nc_open("/home/rmarce/ISIMIP_Lake_Sector/Hypsographics/Cosas_Rafa/population_1860soc_0p5deg_annual_1661-1860.nc4")
+
 {
   sink('gimms3g_ndvi_1982-2012_metadata.txt')
   print(nc_data)
+  sink()
+}
+
+{
+  sink('2.txt')
+  print(nc_data_2)
   sink()
 }
 
