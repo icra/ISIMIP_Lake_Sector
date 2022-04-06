@@ -12,7 +12,7 @@ functions to convert .tif files into netCDF
 import xarray as xr
 import numpy as np
 from datetime import date
-import gdal
+from osgeo import gdal
 import os 
 
 # ----------------------------------------------------------------
