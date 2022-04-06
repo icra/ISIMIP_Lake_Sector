@@ -13,7 +13,7 @@
 
 **[inputs_ISIMIP3_netcdf]:** Final collection of inputs for the ISIMIP3 runs of the global lake sector in netcdf format. THESE ARE THE RECCOMENDED FILES TO USE. See the Readme.md file in the folder for further details.
 
-**[inputs_ISIMIP3]:** Final input datasets in raster and shapefile format. In this folder you will find information in raster and shapefile format on the representative lakes per pixel, basic morphological features for each lake, and hypsographic curves. PLease, consider there are no supporting metadata for these files, so we reccommend using the netcdf collection at [inputs_ISIMIP3_netcdf] <br />
+**[inputs_ISIMIP3]:** Final input datasets in raster and shapefile format. In this folder you will find information in raster and shapefile format on the representative lakes per pixel, basic morphological features for each lake, and hypsographic curves. Please, consider there are no supporting metadata for these files, so we reccommend using the netcdf collection at [inputs_ISIMIP3_netcdf] <br />
 
 ## Summary of the approach
 
