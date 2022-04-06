@@ -3,7 +3,7 @@
 
 ### This is a brief guide to follow the steps implemented, if you want more details please check the three folders containing the full calculations:<br />
 
-**[lake_identification]:** selection of the representative lake for each pixel. We took the 1.4 million lakes in [HydroLAKES](https://www.hydrosheds.org/pages/hydrolakes) and calculated the depth weighted median (weighted by area of the lakes) for all the lakes contained in each pixel with a 0.5º resolution.  <br />
+**[lake_identification]:** selection of the representative lake for each pixel. We took the 1.4 million lakes in [HydroLAKES](https://www.hydrosheds.org/pages/hydrolakes) and selected the lake with the depth corresponding to the depth weighted median (weighted by area of the lakes) for all the lakes contained in each pixel with a 0.5º resolution.  <br />
 **[Hypsographics]:** we extract the Volume, Area, mean and maximum Depth, and hypsographic curves from [GLOBathy](https://www.nature.com/articles/s41597-022-01132-9) (find here [repository](https://springernature.figshare.com/collections/GLOBathy_the_Global_Lakes_Bathymetry_Dataset/5243309)) for each representative lake selected in the previous step, using the lake ID to cross reference the two databases (GLOBathy and HydroLAKES use the same id attribute). <br />
 **[create_netcdf]:** Phyton scripts to produce the final netcdf files available in [inputs_ISIMIP_netcdf]
 
