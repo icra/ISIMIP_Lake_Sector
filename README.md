@@ -7,7 +7,7 @@
 **[Hypsographics]:** we extract the Volume, Area, mean and maximum Depth, and hypsographic curves from [GLOBathy](https://www.nature.com/articles/s41597-022-01132-9) (find here [repository](https://springernature.figshare.com/collections/GLOBathy_the_Global_Lakes_Bathymetry_Dataset/5243309)) for each representative lake selected in the previous step, using the lake ID to cross reference the two databases (GLOBathy and HydroLAKES use the same id attribute). <br />
 **[create_netcdf]:** Phyton scripts to produce the final netcdf files available in [inputs_ISIMIP_netcdf]
 
-**[Water_area_per_pixel]:**: Under development. Will contain the fraction of ecah pixel covered by lakes present in the HydroLAKES database. <br />
+**[Water_area_per_pixel]:** Under development. Will contain the fraction of each pixel covered by lakes present in the HydroLAKES database. <br />
 
 ### Folders containing the lake morphology inputs for ISIMIP3 sumulations in the global lakes sector <br />
 
