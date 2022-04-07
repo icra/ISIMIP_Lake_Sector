@@ -1,6 +1,6 @@
 # Final collection of netcdf files containing the representative lakes information for ISIMIP3 global lake runs  <br />
 
-**[Basic_inputs]:** Area (km2), volume (km3), and maximum and mean depth (m) of the representative lakes. <br />
+**[Alternative_inputs]:** Area (km2), volume (km3), and maximum and mean depth (m) of the representative lakes. <br />
 
 **[Hypsographic_curves]:** Hypsographic curves for area and volume for the representative lakes. Each hypsographic curve consist of 11 data pairs relating level (bottom of the lake as the reference, in meters) with area (km2) or volume (km3).  <br />
 
