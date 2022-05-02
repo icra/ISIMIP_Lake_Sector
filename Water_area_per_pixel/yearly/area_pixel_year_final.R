@@ -6,7 +6,7 @@ years <- as.numeric(unlist(strsplit(unlist(strsplit(list.files(path="previous/",
 
 for (c in 1:length(years)){
   print(paste("year:", years[c]))
-  frac_temp <- raster(paste0("previous/frac_areas_", years[c],".tif"))
+  frac_temp <- raster(paste0("previous/frac_areas_", years[1],".tif"))
   if (c>1){
     for (y in years[2:c]){
       frac_temp <- frac_temp + raster(paste0("previous/frac_areas_", y,".tif"))
