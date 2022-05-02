@@ -15,7 +15,7 @@ for (c in 1:length(years)){
     m <- c(0, 0, NA,1,2,1)
     rclmat <- matrix(m, ncol=3, byrow=TRUE)
     rest_temp_NA <- reclassify(rest_temp, rclmat, include.lowest=TRUE)
-    writeRaster(rest_temp_NA,paste0("final/frac_areas_", y,".tif"),overwrite=T)
+    writeRaster(rest_temp_NA,paste0("final/frac_areas_", years[c],".tif"),overwrite=T)
   }else{
     rest_temp <- frac - frac_temp
     m <- c(0, 0, NA,1,2,1)
