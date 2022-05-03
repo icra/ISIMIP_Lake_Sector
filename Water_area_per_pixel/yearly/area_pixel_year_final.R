@@ -6,12 +6,13 @@ years <- as.numeric(unlist(strsplit(unlist(strsplit(list.files(path="previous/",
 
 for (c in 1:length(years)){
   print(paste("year:", years[c]))
+  rest_temp <- frac
   if(c==length(years)){
     frac_NA <- raster("/home/dmercado/ISIMIP_Lake_Sector/Water_area_per_pixel/frac_areas_NA.tif")
-    writeRaster(frac_NA, paste0("final/frac_areas_NA_", years[c],".tif"))
+    writeRaster(frac_NA, paste0("final/frac_areas_NA_", years[c],".tif"), overwrite=T)
   }else{
     for (y in years[(c+1):length(years)]){
-      rest_temp <- frac - raster(paste0("previous/frac_areas_", y,".tif"))
+      rest_temp <- rest_temp - raster(paste0("previous/frac_areas_", y,".tif"))
     }
     m <- c(0, 0, NA,1,2,1)
     rclmat <- matrix(m, ncol=3, byrow=TRUE)
@@ -19,3 +20,4 @@ for (c in 1:length(years)){
     writeRaster(rest_temp_NA,paste0("final/frac_areas_NA_", years[c],".tif"), overwrite=T)
   }
 }
+
