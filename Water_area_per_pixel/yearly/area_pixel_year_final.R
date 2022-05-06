@@ -1,6 +1,8 @@
 library(raster)
 #present day area per pixel map
 frac <- raster("/home/dmercado/ISIMIP_Lake_Sector/Water_area_per_pixel/frac_areas.tif")
+#frac type 3 
+frac_3 <- raster("/home/dmercado/ISIMIP_Lake_Sector/Water_area_per_pixel/yearly/frac_areas_type3.tif")
 #all years with dam construction since 1850 (included)
 years <- as.numeric(unlist(strsplit(unlist(strsplit(list.files(path="previous/",pattern="NA"), "frac_areas_NA_")), ".tif")))
 
@@ -14,6 +16,7 @@ for (c in 1:length(years)){
     for (y in years[(c+1):length(years)]){
       rest_temp <- rest_temp - raster(paste0("previous/frac_areas_", y,".tif"))
     }
+    rest_temp <- rest_temp + frac_3
     m <- c(0, 0, NA,1,2,1)
     rclmat <- matrix(m, ncol=3, byrow=TRUE)
     rest_temp_NA <- reclassify(rest_temp, rclmat, include.lowest=TRUE)
