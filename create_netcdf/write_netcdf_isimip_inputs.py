@@ -14,7 +14,7 @@ import numpy as np
 from datetime import date
 from osgeo import gdal
 import os 
-#from functions import *
+from functions import *
 
 # add today (for saving to netCDF later)
 today = date.today()
@@ -24,6 +24,7 @@ date = today.strftime("%c")
 parent_directory= os.path.abspath(os.path.join(os.getcwd(), os.pardir)) 
 directory_netcdf =  parent_directory+'/inputs_ISIMIP3_netcdf/' 
 directory_raster =  parent_directory+'/inputs_ISIMIP3/'
+directory_waterarea_per_pixel =  parent_directory+'/Water_area_per_pixel/yearly/final/'
 
 
 #%%
@@ -187,6 +188,10 @@ os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filena
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
+
+
+
+
 # RAFA: better we do not include this, because it is not going to be used during simulations 
 # #%%
 # # ----------------------------------------------------------------
@@ -326,6 +331,8 @@ write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_va
 os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
+
+
 ##%%
 ## ----------------------------------------------------------------
 ## power fit for hypsographic curve for volume 
@@ -512,3 +519,35 @@ os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 #os.system('rm '+ filename_netcdf)
 #os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 ## %%
+
+# %%
+# ----------------------------------------------------------------
+# transient water area per year 
+# ----------------------------------------------------------------
+
+# define filename, variable name and attributes
+years_start = 1852
+years_end   = 2010
+
+filename_rasters = [directory_waterarea_per_pixel + 'rasters_hypsographic/volume_level'+str(n)+'.tif' for year in range(1,nlevels+1)]
+filename_rasters_level = [directory_waterarea_per_pixel + 'rasters_hypsographic/level_level'+str(n)+'.tif' for year in range(1,nlevels+1)]
+filename_netcdf = directory_netcdf + 'Hypsographic_curves/' + 'hypso_volume.nc'
+
+variable_name = 'volume'
+# variable attributes
+attrs_variable = {'units': 'km^3', 'long_name' : 'Volume per level'}
+attrs_levels = {'units': 'm', 'long_name' : 'lake level from bottom'}
+
+# global attributes
+attrs_global = {'creation_date': date,
+                        'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1., and HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603', 
+                        'title': 'Level-Volume hypsographic information for each representative lake.',
+                        'use': 'Level-Volume Hypsographic curves to be provided to your model (alternatively, you can also use the Level-Area Hypsographic curve in this repository). Each hypsographic consist in 11 data pairs. Level refers to the level of the lake taking the lake bottom as the reference (in meters), Volume is the volume at the corresponding level (in km3).',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
+                        'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
+
+write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
