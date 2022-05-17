@@ -16,6 +16,7 @@ for (c in 1:length(years)){
     m <- c(0, 0, NA,1,2,1)
     rclmat <- matrix(m, ncol=3, byrow=TRUE)
     rest_temp_NA <- reclassify(rest_temp, rclmat, include.lowest=TRUE)
+    rest_temp[][which(rest_temp[]<0)] <-0 #some pixels in asia and africa are below 0 because some inconsistencies with HydroLAKES
     writeRaster(rest_temp_NA,paste0("final/frac_areas_NA_", years[c],".tif"), overwrite=T)
   }
 }
