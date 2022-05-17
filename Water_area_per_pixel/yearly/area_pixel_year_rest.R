@@ -1,23 +1,19 @@
-Sys.time()
 library(sf); library(raster); library(lwgeom); library(rgdal)
 
 #open grand database
-grand <- st_read("/home/dmercado/ISIMIP_Lake_Sector_inputs/GRanD_dams_v1_1.shp")
-#select id with year of construction greater or equal than 1850 (historical scenario first year)
-grand_id <- grand$GRAND_ID[grand$YEAR>=1850]
-#open hydrolakes database
-HL <- st_read("/home/dmercado/ISIMIP_Lake_Sector_inputs/HydroLAKES_polys_v10.shp")
-#subset the previous selected id in grand
-HL_dam <- subset(HL, HL$Grand_id %in% grand_id)
-#no concuerdan en numero, hay menos en HL de los seleccionados
-length(HL_dam[[1]])==length(grand_id)
-#years with dam construction beoynd 1850
+grand <- st_read("/home/dmercado/ISIMIP_Lake_Sector_inputs/GRanD_Version_1_3/GRanD_reservoirs_v1_3.shp")
+
+#remove natural lakes used for hydroelectricity
+lake_ctrl_id <- sort(grand$GRAND_ID[grand$LAKE_CTRL == "Yes"])
+grand <- subset(grand, !(grand$GRAND_ID %in% lake_ctrl_id))
+
+#select id with year of construction greater or equal than 1850 (historical scenario first year), there is no value between 1949 to 1951, so we took the last one=1948
+grand_id <- grand$GRAND_ID[grand$YEAR>=1848]
+
 years_dam <- sort(unique(grand$YEAR[grand$GRAND_ID %in% grand_id]))
 
 for (y in years_dam){  
-  grand_id_y <- grand$GRAND_ID[grand$YEAR==y]
-  HL_dam_y <- subset(HL_dam, HL_dam$Grand_id %in% grand_id_y)
-  
+  HL_dam_y <- subset(grand, grand$YEAR==y)  # here "HL_dam" was replaced by "grand", the name "HL_dam_y" was maintained to avoid changing the rest code
   raster_matrix <- matrix(data = 1, nrow=360, ncol = 720)
   rasterHL <- raster(raster_matrix)
   extent(rasterHL) <- extent(c(-180,180,-90,90))
@@ -60,17 +56,16 @@ for (y in years_dam){
   #preparing and saving the output raster with fraction water coverage
   raster_salida <- raster(nrows=180, ncols=360, xmn=-180, xmx=180, ymn=-90, ymx=90, crs="+proj=longlat +datum=WGS84 +no_defs", resolution=c(0.5,0.5), vals=NULL)
   raster_areas <- rasterize(ras_pol_sf, raster_salida,'frac_water')
-  writeRaster(raster_areas,paste0("frac_areas_",y,".tif"), overwrite=T)
+  writeRaster(raster_areas,paste0("previous/frac_areas_",y,".tif"), overwrite=T)
   print(Sys.time())
   
   ####################added a posteriori to remove zeros and small deviations >1 
-  raster_frac <- raster(paste0("frac_areas_",y,".tif"))
+  raster_frac <- raster(paste0("previous/frac_areas_",y,".tif"))
   m <- c(0, 0, NA,1,2,1)
   rclmat <- matrix(m, ncol=3, byrow=TRUE)
   raster_frac_NA <- reclassify(raster_frac, rclmat, include.lowest=TRUE)
-  writeRaster(raster_frac_NA,paste0("frac_areas_NA_",y,".tif"), overwrite=T)
+  writeRaster(raster_frac_NA,paste0("previous/frac_areas_NA_",y,".tif"), overwrite=T)
   #################################################  
 }
-
 
 
