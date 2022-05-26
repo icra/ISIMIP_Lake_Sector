@@ -6,7 +6,7 @@
 **HL_selected.shp (from [lake_identification]:** shapefile collection of the final selected lakes for each pixel. Please, find the HL_selected.shp file in lake_identification/output <br />
 **HLid_biglakes.tif (from [lake_identification]:** ID of big lakes, for plotting purposes <br />
 **biglakes_mask.tif (from [lake_identification]:**  mask for plotting big lakes <br />
-**Height.tif (from [lake_identification]):** Elevation of lake surface, in meters above sea level <br />
+**H.tif (from [lake_identification]):** Elevation of lake surface, in meters above sea level <br />
 
 **A_raster.tif (from [Hypsographics]):** lake surface area, in square kilometers <br />
 **Dmax_raster.tif (from [Hypsographics]):** maximum lake depth, in meters <br />
