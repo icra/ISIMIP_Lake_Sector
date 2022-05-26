@@ -1,5 +1,5 @@
 """
-Author      : Inne Vanderkelen (inne.vanderkelen@vub.be), modified by Rafael Marcé (rmarce@icra.cat)
+Author      : Inne Vanderkelen (inne.vanderkelen@vub.be), modified by Rafael Marcé (rmarce@icra.cat) and Daniel Mercado-Bettín (dmercado@icra.cat)
 Institution : Vrije Universiteit Brussel (VUB)
 Date        : February 2022
 
@@ -188,6 +188,32 @@ os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filena
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
+#%%
+# ----------------------------------------------------------------
+# Heigth or m.a.s.l (added by Daniel)
+# ----------------------------------------------------------------
+
+# define filename, variable name and attributes
+filename_raster = directory_raster + 'H_raster.tif'
+filename_netcdf = directory_netcdf + 'Alternative_inputs/' + 'height.nc'
+
+variable_name = 'height'
+# variable attributes
+attrs_variable = {'units': 'm', 'long_name' : 'Lake Heigth', '_FillValue' : 1e20}
+
+# global attributes
+attrs_global = {'creation_date': date,
+                        'source': 'HydroLAKES polygons dataset v1.0 June 2019', 
+                        'title': 'Heigth (meters above sea level) for ISIMIP3 representative lakes calculated from HydroLAKES',
+                        'use': 'We recommend using height provided in this repository as inputs for your lake model. Use this file only if your lake model needs heigth values.',
+                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603',
+                        'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
+
+write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
+os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 
 
@@ -584,7 +610,7 @@ os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 
 # -----------------------------------------------------------
-# ISIMIP2b histsoc 1850-2014
+# ISIMIP3b histsoc 1850-2014
 
 # define filename, variable name and attributes
 
