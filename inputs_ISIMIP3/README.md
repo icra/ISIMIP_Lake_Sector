@@ -1,5 +1,5 @@
 ## Input lake morphology data to use in ISIMIP3 global lakes simulations <br />
-## However, we reccommend using the netcdf files in the folder **[inputs_ISIMIP3_netcedf]** <br />
+## However, we reccommend using the netcdf files in the folder **[inputs_ISIMIP3_netcdf]** <br />
 
 **Hylak_id.tif (from [lake_identification]:** unique lake identifier, shared by HydroLAKES and GLOBAthy<br />
 **Lake_type.tif (from [lake_identification]:** HydroLAKES indicator for lake type; 1:Lake; 2:Reservoir; 3:Lake control (i.e. natural lake with regulation structure)<br />
