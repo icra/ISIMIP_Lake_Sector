@@ -45,12 +45,12 @@ attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1., and HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603', 
                         'title': 'Mean depth for ISIMIP3 representative lakes calculated from GLOBathy and HydroLAKES',
                         'use': 'We reccommend using the area o volume hypsographic curves provided in this repository as inputs for your lake model. Use this file only if your lake model does not accept a full hypsographic curve as an input.',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -73,12 +73,12 @@ attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1., and HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603', 
                         'title': 'Maximum depth for ISIMIP3 representative lakes calculated from GLOBathy and HydroLAKES',
                         'use': 'We reccommend using the area o volume hypsographic curves provided in this repository as inputs for your lake model. Use this file only if your lake model does not accept a full hypsographic curve as an input.',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -100,12 +100,12 @@ attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES polygons dataset v1.0 June 2019',
                         'title': 'ID of the representative lake at each pixel, from HydroLAKES and GLOBathy',
                         'use': 'File provided for reference, to relate HydroLAKES and GLOBathy database fields to the ISIMIP3 representative lakes',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -127,12 +127,12 @@ attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES polygons dataset v1.0 June 2019',
                         'title': 'ID of very big lakes in HydroLAKES, for plotting purposes',
                         'use': 'File provided for reference, to produce global plots with conspicuous large lakes during figure production. To be used together with the file storing the big lakes mask',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 #%%
@@ -153,12 +153,12 @@ attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1., and HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603', 
                         'title': 'Surface Area for ISIMIP3 representative lakes calculated from GLOBathy and HydroLAKES',
                         'use': 'We reccommend using the area o volume hypsographic curves provided in this repository as inputs for your lake model. Use this file only if your lake model does not accept a full hypsographic curve as an input.',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 #%%
@@ -179,12 +179,12 @@ attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1., and HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603', 
                         'title': 'Volume for ISIMIP3 representative lakes calculated from GLOBathy and HydroLAKES',
                         'use': 'We reccommend using the area o volume hypsographic curves provided in this repository as inputs for your lake model. Use this file only if your lake model does not accept a full hypsographic curve as an input.',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20  ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -195,9 +195,9 @@ os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 # define filename, variable name and attributes
 filename_raster = directory_raster + 'H_raster.tif'
-filename_netcdf = directory_netcdf + 'Alternative_inputs/' + 'height.nc'
+filename_netcdf = directory_netcdf + 'Alternative_inputs/' + 'elevation.nc'
 
-variable_name = 'height'
+variable_name = 'elevation'
 # variable attributes
 attrs_variable = {'units': 'm', 'long_name' : 'Lake Heigth', '_FillValue' : 1e20}
 
@@ -205,13 +205,13 @@ attrs_variable = {'units': 'm', 'long_name' : 'Lake Heigth', '_FillValue' : 1e20
 attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES polygons dataset v1.0 June 2019', 
                         'title': 'Heigth (meters above sea level) for ISIMIP3 representative lakes calculated from HydroLAKES',
-                        'use': 'We recommend using height provided in this repository as inputs for your lake model. Use this file only if your lake model needs heigth values.',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'use': 'We recommend using elevation provided in this repository as inputs for your lake model. Use this file only if your lake model needs elevation values.',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -287,12 +287,12 @@ attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES polygons dataset v1.0 June 2019',
                         'title': 'Raster mask for very big lakes from HydroLAKES, for plotting purposes',
                         'use': 'File provided for reference, to produce global plots with conspicuous large lakes during figure production. To be used together with the file storing the big lakes IDs',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -319,12 +319,12 @@ attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1., and HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603', 
                         'title': 'Level-Area hypsographic information for each representative lake.',
                         'use': 'Level-Area Hypsographic curves to be provided to your model (alternatively, you can also use the Level-Volume Hypsographic curves in this repository). Each hypsographic consist in 11 data pairs. Level refers to the level of the lake taking the lake bottom as the reference (in meters), Area is the area at the corresponding level (in km2).',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 # %%
@@ -349,12 +349,12 @@ attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1., and HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603', 
                         'title': 'Level-Volume hypsographic information for each representative lake.',
                         'use': 'Level-Volume Hypsographic curves to be provided to your model (alternatively, you can also use the Level-Area Hypsographic curve in this repository). Each hypsographic consist in 11 data pairs. Level refers to the level of the lake taking the lake bottom as the reference (in meters), Volume is the volume at the corresponding level (in km3).',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
-os.system('cdo -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -564,7 +564,7 @@ attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603, GRanD dataset v1.3 2017,  https://doi.org/10.1890/100125', 
                         'title': 'Lake and reservoir percent, transient over time',
                         'use': 'Lake and reservoir area fraction calculated from the HydroLAKES and GRanD database mapped to 0.5 degrees resolution, time steps represent increasing reservoirs in their construction year, as given by GRanD. Reservoirs from 2017 onwards are kept constant',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Lehner, B., C. Reidy Liermann, C. Revenga, C. Vörösmarty, B. Fekete, P. Crouzet, P. Döll, M. Endejan, K. Frenken, J. Magome, C. Nilsson, J.C. Robertson, R. Rodel, N. Sindorf, and D. Wisser. 2011. High-resolution mapping of the world’s reservoirs and dams for sustainable river-flow management. Frontiers in Ecology and the Environment 9 (9): 494-502, https://doi.org/10.1890/100125. Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022).',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -581,7 +581,8 @@ filename_netcdf = directory_netcdf + 'Water_area_per_pixel/' + 'pctlake_'+str(ye
 
 
 write_netcdf_3d_lakepct(filename_rasters, filename_netcdf, attrs_variable,variable_name, attrs_global, years_start, years_end)
-os.system('cdo -O --history -setmissval, 1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -setcalendar,360_day -setreftime,1850-01-01,00:00:00,1years -settaxis,1850-01-01,00:00:00,1years ' + filename_netcdf + ' ' + filename_netcdf + '4')
+
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -604,7 +605,7 @@ filename_netcdf = directory_netcdf + 'Water_area_per_pixel/' + 'pctlake_'+str(ye
 
 
 write_netcdf_3d_lakepct(filename_rasters, filename_netcdf, attrs_variable,variable_name, attrs_global, years_start, years_end)
-os.system('cdo -O --history -setmissval, 1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat -setcalendar,360_day -setreftime,1901-01-01,00:00:00,1years -settaxis,1901-01-01,00:00:00,1years ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -625,12 +626,45 @@ filename_netcdf = directory_netcdf + 'Water_area_per_pixel/' + 'pctlake_'+str(ye
 
 
 write_netcdf_3d_lakepct(filename_rasters, filename_netcdf, attrs_variable, variable_name, attrs_global, years_start, years_end)
-os.system('cdo -O --history -setmissval, 1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat -setcalendar,360_day -setreftime,1850-01-01,00:00:00,1years -settaxis,1850-01-01,00:00:00,1years ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
 
 # %%
+
+
+# -----------------------------------------------------------
+# by Daniel to upload file requested by Matthias Buechner
+# ISIMIP3b histsoc 1850-2020
+
+# define filename, variable name and attributes
+
+
+years_start = 1850
+years_end   = 2020
+years_files_end = 2017
+
+filename_rasters = [directory_waterarea_per_pixel + 'frac_areas_NA_'+str(year)+'.tif' for year in range(years_start,years_files_end+1)]
+
+
+# extend filenames from 2017 to 2020 by repeating last 3 years
+for year in range(years_files_end,years_end): 
+    filename_rasters.append(directory_waterarea_per_pixel + 'frac_areas_NA_'+str(years_files_end)+'.tif')
+
+filename_netcdf = directory_netcdf + 'Water_area_per_pixel/' + 'pctlake_'+str(years_start)+'_'+str(years_end)+'.nc'
+
+
+write_netcdf_3d_lakepct(filename_rasters, filename_netcdf, attrs_variable,variable_name, attrs_global, years_start, years_end)
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat -setcalendar,360_day -setreftime,1850-01-01,00:00:00,1years -settaxis,1850-01-01,00:00:00,1years ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('rm '+ filename_netcdf)
+os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
+
+
+# %%
+
+
+
 
 # -----------------------------------------------------------
 # ISIMIP3b 1850soc
@@ -647,7 +681,7 @@ attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603, GRanD dataset v1.3 2017,  https://doi.org/10.1890/100125', 
                         'title': 'Lake and reservoir percent for 1850 (natural lakes excluding reservoirs)',
                         'use': 'Lake and reservoir area fraction calculated from the HydroLAKES and GRanD database mapped to 0.5 degrees resolution for 1850, mostly including natural lakes',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Lehner, B., C. Reidy Liermann, C. Revenga, C. Vörösmarty, B. Fekete, P. Crouzet, P. Döll, M. Endejan, K. Frenken, J. Magome, C. Nilsson, J.C. Robertson, R. Rodel, N. Sindorf, and D. Wisser. 2011. High-resolution mapping of the world’s reservoirs and dams for sustainable river-flow management. Frontiers in Ecology and the Environment 9 (9): 494-502, https://doi.org/10.1890/100125. Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022).',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -659,7 +693,7 @@ filename_netcdf = directory_netcdf + 'Water_area_per_pixel/' + 'pctlake_'+str(ye
 
 write_netcdf_2d_pctlake(filename_raster,  filename_netcdf,attrs_variable,variable_name,attrs_global)
 
-os.system('cdo -O --history -setmissval, 1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat -setcalendar,360_day -setreftime,1850-01-01,00:00:00,1years -settaxis,1850-01-01,00:00:00,1years ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -680,7 +714,7 @@ attrs_global = {'creation_date': date,
                         'source': 'HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603, GRanD dataset v1.3 2017,  https://doi.org/10.1890/100125', 
                         'title': 'Lake and reservoir percent for 2015 ',
                         'use': 'Lake and reservoir area fraction calculated from the HydroLAKES and GRanD database mapped to 0.5 degrees resolution for 1850, mostly including natural lakes',
-                        'contact' : 'Daniel Mercado - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
+                        'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Lehner, B., C. Reidy Liermann, C. Revenga, C. Vörösmarty, B. Fekete, P. Crouzet, P. Döll, M. Endejan, K. Frenken, J. Magome, C. Nilsson, J.C. Robertson, R. Rodel, N. Sindorf, and D. Wisser. 2011. High-resolution mapping of the world’s reservoirs and dams for sustainable river-flow management. Frontiers in Ecology and the Environment 9 (9): 494-502, https://doi.org/10.1890/100125. Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022).',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
@@ -692,7 +726,7 @@ filename_netcdf = directory_netcdf + 'Water_area_per_pixel/' + 'pctlake_'+str(ye
 
 write_netcdf_2d_pctlake(filename_raster,  filename_netcdf,attrs_variable,variable_name,attrs_global)
 
-os.system('cdo -O --history -setmissval, 1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat -setcalendar,360_day -setreftime,2015-01-01,00:00:00,1years -settaxis,2015-01-01,00:00:00,1years ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
