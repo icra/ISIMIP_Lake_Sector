@@ -172,7 +172,7 @@ filename_netcdf = directory_netcdf + 'Alternative_inputs/' + 'volume.nc'
 
 variable_name = 'volume'
 # variable attributes
-attrs_variable = {'units': 'hm^3', 'long_name' : 'Lake Volume', '_FillValue' : 1e20}
+attrs_variable = {'units': 'km^3', 'long_name' : 'Lake Volume', '_FillValue' : 1e20}
 
 # global attributes
 attrs_global = {'creation_date': date,
@@ -341,14 +341,14 @@ filename_netcdf = directory_netcdf + 'Hypsographic_curves/' + 'hypso_volume.nc'
 
 variable_name = 'volume'
 # variable attributes
-attrs_variable = {'units': 'hm^3', 'long_name' : 'Volume per level', '_FillValue' : 1e20}
+attrs_variable = {'units': 'km^3', 'long_name' : 'Volume per level', '_FillValue' : 1e20}
 attrs_levels = {'units': 'm', 'long_name' : 'lake level from bottom'}
 
 # global attributes
 attrs_global = {'creation_date': date,
                         'source': 'GLOBathy, the Global Lakes Bathymetry Dataset, January 2022, https://doi.org/10.6084/m9.figshare.c.5243309.v1., and HydroLAKES dataset v1.0 June 2019, https://doi.org/10.1038/ncomms13603', 
                         'title': 'Level-Volume hypsographic information for each representative lake.',
-                        'use': 'Level-Volume Hypsographic curves to be provided to your model (alternatively, you can also use the Level-Area Hypsographic curve in this repository). Each hypsographic consist in 11 data pairs. Level refers to the level of the lake taking the lake bottom as the reference (in meters), Volume is the volume at the corresponding level (in hm3).',
+                        'use': 'Level-Volume Hypsographic curves to be provided to your model (alternatively, you can also use the Level-Area Hypsographic curve in this repository). Each hypsographic consist in 11 data pairs. Level refers to the level of the lake taking the lake bottom as the reference (in meters), Volume is the volume at the corresponding level (in km3).',
                         'contact' : 'Daniel Mercado-Bettín - ICRA (dmercado@icra.cat); Inne Vanderkelen - VUB (inne.vanderkelen@vub.be); Rafael Marcé - ICRA (rmarce@icra.cat)',
                         'references':'Messager, M.L., Lehner, B., Grill, G., Nedeva, I., Schmitt, O. (2016): Estimating the volume and age of water stored in global lakes using a geo-statistical approach. Nature Communications: 13603. doi: 10.1038/ncomms13603, Khazaei, B., Read, L. K., Casali, M., Sampson, K. M., & Yates, D. N. (2022). GLOBathy, the global lakes bathymetry dataset. Scientific Data, 9(1), 36. https://doi.org/10.1038/s41597-022-01132-9',
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
