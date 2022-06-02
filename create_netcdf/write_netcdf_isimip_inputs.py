@@ -50,7 +50,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -78,7 +78,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -105,7 +105,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -132,7 +132,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 #%%
@@ -158,7 +158,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 #%%
@@ -184,7 +184,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20  ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -211,7 +211,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector'}
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -292,7 +292,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_2d(filename_raster,filename_netcdf,attrs_variable,variable_name,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -324,7 +324,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 # %%
@@ -354,7 +354,7 @@ attrs_global = {'creation_date': date,
                         'url' : 'https://github.com/icra/ISIMIP_Lake_Sector' }
 
 write_netcdf_3d(filename_rasters,filename_rasters_level,filename_netcdf,attrs_variable,variable_name,attrs_levels,attrs_global)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat ' + filename_netcdf + ' ' + filename_netcdf + '4')
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
 
@@ -581,7 +581,7 @@ filename_netcdf = directory_netcdf + 'Water_area_per_pixel/' + 'pctlake_'+str(ye
 
 
 write_netcdf_3d_lakepct(filename_rasters, filename_netcdf, attrs_variable,variable_name, attrs_global, years_start, years_end)
-os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -setcalendar,360_day -setreftime,1850-01-01,00:00:00,1years -settaxis,1850-01-01,00:00:00,1years ' + filename_netcdf + ' ' + filename_netcdf + '4')
+os.system('cdo -f nc4c -z zip_5 -O --history -setmissval,1e+20 -invertlat -setcalendar,360_day -setreftime,1850-01-01,00:00:00,1years -settaxis,1850-01-01,00:00:00,1years ' + filename_netcdf + ' ' + filename_netcdf + '4')
 
 os.system('rm '+ filename_netcdf)
 os.system('mv '+ filename_netcdf+ '4' + ' ' + filename_netcdf)
