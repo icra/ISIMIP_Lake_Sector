@@ -2,7 +2,7 @@
 
 **[Alternative_inputs]:** Area (km2), volume (km3), maximum and mean depth (m) of the representative lakes, and elevation of lake surface (meters above sea level) <br />
 
-**[Hypsographic_curves]:** Hypsographic curves for area and volume for the representative lakes. Each hypsographic curve consist of 11 data pairs relating level (bottom of the lake as the reference, in meters) with area (km2) or volume (hm3).  <br />
+**[Hypsographic_curves]:** Hypsographic curves for area and volume for the representative lakes. Each hypsographic curve consist of 11 data pairs relating level (bottom of the lake as the reference, in meters) with area (km2) or volume (km3).  <br />
 
 **[Water_area_per_pixel]:** netcdf files containing the yearly fraction of water area of lakes per pixel (%) according to dates of construction of dams from 1850. <br />
 
