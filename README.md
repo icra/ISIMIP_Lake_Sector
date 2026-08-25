@@ -1,4 +1,4 @@
-# Inputs for lake morphology in ISIMIP3 runs of the global lake sector <br />
+# Inputs for lake morphology in ISIMIP3 and ISIMIP4 runs of the global lake sector <br />
 ## Method implemented to obtain the lake collection and morphology inputs for ISIMIP3 simulations in global lakes <br />
 
 ### This is a brief guide to follow the steps implemented, if you want more details please check the three folders containing the full calculations:<br />
